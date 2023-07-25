@@ -1,0 +1,19 @@
+name: GitHub actions for react-app
+run-name: ${{ github.actor }} is building and testing react-app 🚀
+on:
+  push:
+    branches:
+      - 'main'
+      - '/feature/*'
+      - '/bugfix/*'
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - run: cd react-app
+    - run: npm ci
+    - run: npm test
