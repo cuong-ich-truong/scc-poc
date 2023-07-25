@@ -1,0 +1,17 @@
+name: GitHub actions for frontend app
+run-name: ${{ github.actor }} is building and testing frontend app 🚀
+on:
+  push:
+    branches:
+      - '**'
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - name: npm ci
+      working-directory: ./frontend
+      run: npm ci
