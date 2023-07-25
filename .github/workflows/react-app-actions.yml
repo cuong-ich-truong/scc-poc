@@ -13,5 +13,6 @@ jobs:
       with:
         node-version: 18
     - run: cd frontend
+    - run: ls
     - run: npm ci
     - run: npm test
