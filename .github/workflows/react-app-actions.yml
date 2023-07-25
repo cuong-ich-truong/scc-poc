@@ -1,5 +1,5 @@
-name: GitHub actions for react-app
-run-name: ${{ github.actor }} is building and testing react-app 🚀
+name: GitHub actions for frontend app
+run-name: ${{ github.actor }} is building and testing frontend app 🚀
 on:
   push:
     branches:
@@ -12,6 +12,6 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
-    - run: cd react-app
+    - run: cd frontend
     - run: npm ci
     - run: npm test
