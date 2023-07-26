@@ -23,6 +23,8 @@
 hs_err_pid*
 replay_pid*
 
-
-# Editor directories and files
-.idea
+# mobile app ignored files
+/mobile/scc_poc_app/lib/firebase_options.dart
+/mobile/scc_poc_app/macos/firebase_app_id_file.json
+/mobile/scc_poc_app/android/app/google-services.json
+**/.DS_Store
