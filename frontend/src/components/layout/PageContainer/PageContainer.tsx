@@ -3,8 +3,6 @@ import './PageContainer.css';
 import Footer from '../Footer/Footer';
 
 interface Props {
-  pageTitle?: string;
-  backButtonAction?: () => void;
   children: React.ReactNode;
 }
 
