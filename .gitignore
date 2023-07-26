@@ -28,3 +28,6 @@ replay_pid*
 /mobile/scc_poc_app/macos/firebase_app_id_file.json
 /mobile/scc_poc_app/android/app/google-services.json
 **/.DS_Store
+
+# Editor directories and files
+.idea

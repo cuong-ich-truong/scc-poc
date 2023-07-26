@@ -30,11 +30,15 @@
 
 .cctvs-container .col {
     padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .camera-info-container {
     display: flex;
     justify-content: space-between;
+    min-height: 30px;
 }
 
 .camera-info-container svg {
@@ -44,6 +48,7 @@
 .camera-incident-container {
     display: flex;
     gap: 8px;
+    height: fit-content;
 }
 
 .camera-incident-container button {
