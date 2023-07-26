@@ -1,5 +1,10 @@
 import { ExceptionResponse } from './dto/ExceptionResponse';
 import { ApiException } from './api.exception';
+
+const serverBaseUrl = import.meta.env.VITE_SERVER_BASE_URL ?? '';
+const basePathPrefix = import.meta.env.VITE_BASE_PATH_PREFIX ?? '';
+
+export const API_BASE_URL = `${serverBaseUrl}${basePathPrefix}/api`;
 export const CONTENT_TYPE_HEADER_KEY = 'Content-Type';
 
 export type RequestMethod = 'GET' | 'POST' | 'PUT';
