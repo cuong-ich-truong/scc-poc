@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @DynamoDBTable(tableName = "premise")
-public class Premise {
+public class PremiseEntity {
 
 
 }

@@ -7,5 +7,6 @@ import lombok.Setter;
 @Data
 public class CustomMessageRequest {
 
-    private String payload;
+    private String username;
+    private String password;
 }

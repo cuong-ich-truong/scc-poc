@@ -31,3 +31,13 @@ replay_pid*
 
 # Editor directories and files
 .idea
+=======
+.idea/
+.DS_Store
+
+# Maven
+target/
+dist/
+
+backend/web/web.iml
+backend/web/target/

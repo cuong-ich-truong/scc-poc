@@ -68,7 +68,7 @@ public class KafkaConsumerConfig {
         configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         configProps.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, StringDeserializer.class);
         configProps.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
-        configProps.put(JsonDeserializer.TRUSTED_PACKAGES, "com.emyasa.dto");
+        configProps.put(JsonDeserializer.TRUSTED_PACKAGES, "com.zuhlke.scc.web.dto");
 
         return new DefaultKafkaConsumerFactory<>(configProps);
     }

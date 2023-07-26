@@ -1,14 +1,17 @@
 package com.zuhlke.scc.web.kafka;
 
 import com.zuhlke.scc.web.dto.CustomMessageRequest;
-import lombok.extern.slf4j.Slf4j;
+import com.zuhlke.scc.web.kafka.config.KafkaConsumerConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
 public class KafkaListeners {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaConsumerConfig.class);
 
     private static final String TEST_TOPIC = "scc";
     private static final String TEST_TOPIC_CUSTOM = "scc-custom";
@@ -21,22 +24,22 @@ public class KafkaListeners {
 
     @KafkaListener(topics = TEST_TOPIC, groupId = TEST_GROUP, containerFactory = SIMPLE_CONTAINER_FACTORY)
     public void listener1(String message) {
-        log.info("Message: '" + message + "' from listener1");
+        LOGGER.info("Message: '" + message + "' from listener1");
     }
 
     @KafkaListener(topics = TEST_TOPIC, groupId = TEST_GROUP, containerFactory = SIMPLE_CONTAINER_FACTORY)
     public void listener2(String message) {
-        log.info("Message: '" + message + "' from listener2");
+        LOGGER.info("Message: '" + message + "' from listener2");
     }
 
     @KafkaListener(topics = TEST_TOPIC, groupId = TEST_GROUP_NEW, containerFactory = SIMPLE_CONTAINER_FACTORY)
     public void listener3(String message) {
-        log.info("Message: '" + message + "' from listener3");
+        LOGGER.info("Message: '" + message + "' from listener3");
     }
 
     @KafkaListener(topics = TEST_TOPIC_CUSTOM, groupId = TEST_GROUP, containerFactory = CUSTOM_CONTAINER_FACTORY)
     public void customListener(CustomMessageRequest message, Acknowledgment acknowledgment) {
-        log.info("Message: '" + message.getPayload() + "' from customListener");
+        LOGGER.info("Message: '" + message.getUsername() + "' from customListener");
         acknowledgment.acknowledge();
     }
 

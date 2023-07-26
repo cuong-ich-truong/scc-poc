@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class CustomMessageRequest {
 
-    private String payload;
+    private String username;
+    private String password;
 }

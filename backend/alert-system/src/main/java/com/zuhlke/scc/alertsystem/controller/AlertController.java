@@ -3,7 +3,6 @@ package com.zuhlke.scc.alertsystem.controller;
 import com.zuhlke.scc.alertsystem.dto.CustomMessageRequest;
 import com.zuhlke.scc.alertsystem.dto.MessageRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 public class AlertController {
 
     @Value("${topic.name}")
@@ -29,7 +27,7 @@ public class AlertController {
     @PostMapping("/send-message")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void sendMessage(@RequestBody MessageRequest messageRequest) {
-        log.info("Send message to topic " + topic);
+
 
 
         kafkaTemplate.send(topic, messageRequest.getMessage());
