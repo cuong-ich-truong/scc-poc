@@ -4,13 +4,13 @@ import PageContainer from '../../layout/PageContainer/PageContainer';
 import { login } from '../../../api/session.api';
 import { useLocation } from 'react-router-dom';
 import { User } from '../../../types/User';
-import { Button, Col, Input, PopoverBody, Row, UncontrolledPopover } from 'reactstrap';
+import { Col, Input, Row } from 'reactstrap';
 import { ACCESS_TOKEN_KEY, USER_ID_KEY, USERNAME_KEY, writeToSessionStorage } from '../../../utils/sessionStorage';
 import { getCCTVStreams } from '../../../api/cctv-streams.api';
 import { CCTV, Incident } from '../../../types/CCTV';
-import { BsThreeDots } from 'react-icons/bs';
-import { CgDanger } from 'react-icons/cg';
 import { ignoreAlert, sendAlert } from '../../../api/incidents.api';
+import IncidentAlert from '../../components/IncidentAlert/IncidentAlert';
+import CCTVPlayer from '../../components/CCTVPlayer/CCTVPlayer';
 
 const DashboardPage: React.FC = () => {
   let { state } = useLocation();
@@ -47,8 +47,6 @@ const DashboardPage: React.FC = () => {
 
   const updateCCTVs = (floorName: string) => setCCTVs(allCCTVs.filter((cctv) => cctv.floorName === floorName));
 
-  const findNonSentIncident = (incidents: Incident[]) => incidents.find((incident) => !incident.sent);
-
   const onSendAlert = async (incident?: Incident) => {
     if (incident) {
       await sendAlert(incident.id);
@@ -83,34 +81,9 @@ const DashboardPage: React.FC = () => {
             <Col key={cctv.id} className="bg-light border">
               <div className="camera-info-container">
                 <span>{cctv.cameraName}</span>
-                {findNonSentIncident(cctv.incidents) !== undefined && (
-                  <div className="camera-incident-container">
-                    <Button id={`popover-${cctv.id}`} type="button" color="outline-danger">
-                      <CgDanger /> <BsThreeDots size={20} />
-                    </Button>
-                    <UncontrolledPopover target={`popover-${cctv.id}`} trigger="focus">
-                      <PopoverBody>
-                        <div className="incident-popover-buttons-container">
-                          <Button
-                            type="button"
-                            color="danger"
-                            onClick={() => onSendAlert(findNonSentIncident(cctv.incidents))}
-                          >
-                            Send Alert
-                          </Button>
-                          <Button
-                            type="button"
-                            color="outline-dark"
-                            onClick={() => onIgnoreAlert(findNonSentIncident(cctv.incidents))}
-                          >
-                            Ignore
-                          </Button>
-                        </div>
-                      </PopoverBody>
-                    </UncontrolledPopover>
-                  </div>
-                )}
+                <IncidentAlert cctv={cctv} onSendAlert={onSendAlert} onIgnoreAlert={onIgnoreAlert} />
               </div>
+              <CCTVPlayer cctv={cctv} />
             </Col>
           ))}
         </Row>
