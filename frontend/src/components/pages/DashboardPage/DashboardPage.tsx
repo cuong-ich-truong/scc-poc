@@ -4,16 +4,19 @@ import PageContainer from '../../layout/PageContainer/PageContainer';
 import { login } from '../../../api/session.api';
 import { useLocation } from 'react-router-dom';
 import { User } from '../../../types/User';
-import { Input } from 'reactstrap';
+import { Button, Col, Input, PopoverBody, Row, UncontrolledPopover } from 'reactstrap';
 import { ACCESS_TOKEN_KEY, USER_ID_KEY, USERNAME_KEY, writeToSessionStorage } from '../../../utils/sessionStorage';
 import { getCCTVStreams } from '../../../api/cctv-streams.api';
-import { CCTV } from '../../../types/CCTV';
+import { CCTV, Incident } from '../../../types/CCTV';
+import { BsThreeDots } from 'react-icons/bs';
+import { CgDanger } from 'react-icons/cg';
+import { ignoreAlert, sendAlert } from '../../../api/incidents.api';
 
 const DashboardPage: React.FC = () => {
   let { state } = useLocation();
   const [user, setUser] = useState<User>();
-  const [cctvs, setCCTVs] = useState<CCTV[]>();
-  const [allCCTVs, setAllCCTVs] = useState<CCTV[]>();
+  const [cctvs, setCCTVs] = useState<CCTV[]>([]);
+  const [allCCTVs, setAllCCTVs] = useState<CCTV[]>([]);
   const [floors, setFloors] = useState<string[]>([]);
 
   useEffect(() => {
@@ -42,13 +45,32 @@ const DashboardPage: React.FC = () => {
     );
   };
 
-  const onFloorChange = (e) => {};
+  const updateCCTVs = (floorName: string) => setCCTVs(allCCTVs.filter((cctv) => cctv.floorName === floorName));
+
+  const findNonSentIncident = (incidents: Incident[]) => incidents.find((incident) => !incident.sent);
+
+  const onSendAlert = async (incident?: Incident) => {
+    if (incident) {
+      await sendAlert(incident.id);
+      incident.sent = true;
+      setCCTVs([...cctvs]);
+    }
+  };
+
+  const onIgnoreAlert = async (incident?: Incident) => {
+    if (incident) {
+      await ignoreAlert(incident.id);
+      incident.sent = true;
+      setCCTVs([...cctvs]);
+    }
+  };
 
   return (
     <PageContainer user={user}>
-      <div className="login-page-container">
+      <div className="dashboard-page-container">
         <div className="cctv-property-input">
-          <Input type="select" id="floors" name="floors" onChange={onFloorChange}>
+          <Input type="select" id="floors" name="floors" onChange={(e) => updateCCTVs(e.target.value)}>
+            <option defaultChecked={true}>Select Floor</option>
             {floors.map((floor: string) => (
               <option key={floor} value={floor}>
                 Floor {floor}
@@ -56,6 +78,42 @@ const DashboardPage: React.FC = () => {
             ))}
           </Input>
         </div>
+        <Row xs="2" className="m-0 cctvs-container">
+          {cctvs.map((cctv) => (
+            <Col key={cctv.id} className="bg-light border">
+              <div className="camera-info-container">
+                <span>{cctv.cameraName}</span>
+                {findNonSentIncident(cctv.incidents) !== undefined && (
+                  <div className="camera-incident-container">
+                    <Button id={`popover-${cctv.id}`} type="button" color="outline-danger">
+                      <CgDanger /> <BsThreeDots size={20} />
+                    </Button>
+                    <UncontrolledPopover target={`popover-${cctv.id}`} trigger="focus">
+                      <PopoverBody>
+                        <div className="incident-popover-buttons-container">
+                          <Button
+                            type="button"
+                            color="danger"
+                            onClick={() => onSendAlert(findNonSentIncident(cctv.incidents))}
+                          >
+                            Send Alert
+                          </Button>
+                          <Button
+                            type="button"
+                            color="outline-dark"
+                            onClick={() => onIgnoreAlert(findNonSentIncident(cctv.incidents))}
+                          >
+                            Ignore
+                          </Button>
+                        </div>
+                      </PopoverBody>
+                    </UncontrolledPopover>
+                  </div>
+                )}
+              </div>
+            </Col>
+          ))}
+        </Row>
       </div>
     </PageContainer>
   );
