@@ -1,20 +1,23 @@
-.login-page-container {
+.dashboard-page-container {
     margin: auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
-.login-page-container .header {
+.dashboard-page-container .header {
     display: flex;
     justify-content: space-between;
     align-items: start;
     margin-bottom: 50px;
 }
 
-.login-page-container .header img {
+.dashboard-page-container .header img {
     max-width: 100px;
     max-height: 100px;
 }
 
-.login-page-container button {
+.dashboard-page-container button {
     width: 100%;
 }
 
@@ -23,4 +26,32 @@
     max-width: 200px;
     display: flex;
     flex-direction: column;
+}
+
+.cctvs-container .col {
+    padding: 8px;
+}
+
+.camera-info-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.camera-info-container svg {
+    margin: auto 0;
+}
+
+.camera-incident-container {
+    display: flex;
+    gap: 8px;
+}
+
+.camera-incident-container button {
+    padding: 1px 8px 3px;
+}
+
+.incident-popover-buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
