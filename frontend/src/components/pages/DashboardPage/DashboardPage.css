@@ -17,3 +17,10 @@
 .login-page-container button {
     width: 100%;
 }
+
+.cctv-property-input {
+    min-width: 150px;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+}

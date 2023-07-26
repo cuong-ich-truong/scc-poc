@@ -15,7 +15,17 @@
     margin-bottom: 10px;
 }
 
-.page-header span {
+.page-header h1 {
+    width: 100%;
     text-align: center;
+}
+
+.user-container {
+    display: flex !important;
+    gap: 8px;
     font-weight: 600;
+}
+
+.user-container svg {
+    margin: auto 0;
 }
