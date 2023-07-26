@@ -1,11 +1,8 @@
 import React from 'react';
+import './Footer.css';
 import { getApplicationVersion } from '../../../utils/getApplicationVersion';
 
 const Footer: React.FC = () => {
-  return (
-    <div
-      style={{ height: '35px', paddingLeft: '25px', fontSize: '10pt', color: 'gray' }}
-    >{`Application version: ${getApplicationVersion()}`}</div>
-  );
+  return <div className="footer">{`Application version: ${getApplicationVersion()}`}</div>;
 };
 export default Footer;

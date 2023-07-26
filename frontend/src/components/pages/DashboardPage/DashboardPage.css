@@ -1,0 +1,26 @@
+.login-page-container {
+    margin: auto 0;
+}
+
+.login-page-container .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 50px;
+}
+
+.login-page-container .header img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.login-page-container button {
+    width: 100%;
+}
+
+.cctv-property-input {
+    min-width: 150px;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+}

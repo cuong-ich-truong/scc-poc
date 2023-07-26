@@ -6,8 +6,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import { Toaster } from 'react-hot-toast';
 import { getApplicationVersion } from './utils/getApplicationVersion';
+import { worker } from './api/mocks/mockServer';
 
 console.log(`Application version: ${getApplicationVersion()}`);
+
+let serverMockEnable = JSON.parse(import.meta.env.VITE_SERVER_MOCKS_ENABLED);
+if (serverMockEnable) {
+  worker.start({ onUnhandledRequest: 'bypass' });
+}
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
