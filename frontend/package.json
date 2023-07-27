@@ -4,13 +4,17 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --port 8081",
+    "start:mock": "vite --port 8081 --mode mock &",
     "build": "tsc && vite build",
     "lint:check": "eslint src --ext ts,tsx --report-unused-disable-directives",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --browser chrome"
   },
   "dependencies": {
     "bootstrap": "^5.2.3",
+    "cypress": "^12.15.0",
     "esbuild": "^0.17.19",
     "formik": "^2.2.9",
     "moment": "^2.29.4",
@@ -52,7 +56,8 @@
     "react-hls-player": {
       "react": "$react",
       "react-dom": "$react-dom"
-    }
+    },
+    "tough-cookie": "4.1.3"
   },
   "msw": {
     "workerDirectory": "public"
