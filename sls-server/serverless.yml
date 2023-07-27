@@ -1,0 +1,78 @@
+
+service: scc-sls-api
+
+custom:
+  cameraTableName: 'java-camera-${self:provider.stage}'
+  premiseTableName: 'java-premise-${self:provider.stage}'
+  dynamodb:
+    # start:
+    #   port: 8002
+    #   inMemory: true
+    #   migrate: true
+    stages:
+      - dev
+
+provider:
+  name: aws
+  runtime: java8
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - { "Fn::GetAtt": ["CameraDynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["PremiseDynamoDBTable", "Arn" ] }
+  environment:
+    CAMERA_TABLE_NAME: ${self:custom.cameraTableName}
+    PREMISE_TABLE_NAME: ${self:custom.premiseTableName}
+
+package:
+  artifact: 'target/${self:service}-${self:provider.stage}.jar'
+
+functions:
+  getPremises:
+    handler: com.serverless.GetPremisesHandler
+    events:
+      - http:
+          path: /premises
+          method: get 
+plugins:
+  - serverless-offline
+  - serverless-dynamodb
+
+
+resources:
+  Resources:
+    CameraDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.cameraTableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    PremiseDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.premiseTableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
