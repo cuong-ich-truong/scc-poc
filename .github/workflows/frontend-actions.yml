@@ -27,5 +27,5 @@ jobs:
         working-directory: ./frontend
         run: |
           npm ci
-          npm run start:mock
+          npm run start:mock &
           npm run cypress:run -- --config baseUrl=http://localhost:8081

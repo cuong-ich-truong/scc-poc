@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --port 8081",
-    "start:mock": "vite --port 8081 --mode mock",
+    "start:mock": "vite --port 8081 --mode mock &",
     "build": "tsc && vite build",
     "lint:check": "eslint src --ext ts,tsx --report-unused-disable-directives",
     "preview": "vite preview",
