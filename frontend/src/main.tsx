@@ -7,6 +7,7 @@ import './index.css';
 import { Toaster } from 'react-hot-toast';
 import { getApplicationVersion } from './utils/getApplicationVersion';
 import { worker } from './api/mocks/mockServer';
+import { testId } from './testing/testId';
 
 console.log(`Application version: ${getApplicationVersion()}`);
 
@@ -24,3 +25,4 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   </React.StrictMode>
 );
 (document.getElementById('root') as HTMLElement).className = 'container';
+(document.getElementById('root') as HTMLElement).dataset['testid'] = testId.rootContainer;

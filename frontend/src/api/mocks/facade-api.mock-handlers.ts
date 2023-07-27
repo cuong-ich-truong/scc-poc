@@ -1,23 +1,24 @@
 import { rest } from 'msw';
 import { API_BASE_URL } from '../api';
 import { mockedUserResponse } from './mockdata/mocked-user.response';
-import { mockedCCTVsResponse } from './mockdata/mocked-cctvs.response';
+import { mockedPremisesResponse } from './mockdata/mocked-premises.response';
 import { mockedGenericResponse } from './mockdata/mocked-generic.response';
+import { mockedGuardsResponse } from './mockdata/mocked-guards.response';
 
 export const facadeApiMockHandlers = [
   rest.post(`${API_BASE_URL}/login`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockedUserResponse));
   }),
 
-  rest.get(`${API_BASE_URL}/cctvs`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockedCCTVsResponse));
+  rest.get(`${API_BASE_URL}/guards`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(mockedGuardsResponse));
   }),
 
-  rest.put(`${API_BASE_URL}/incidents/alert`, (req, res, ctx) => {
+  rest.get(`${API_BASE_URL}/premises`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(mockedPremisesResponse));
+  }),
+
+  rest.put(`${API_BASE_URL}/incidents/:indidentId`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockedGenericResponse));
-  }),
-
-  rest.put(`${API_BASE_URL}/incidents/ignore`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ ...mockedGenericResponse, message: 'Ignore alert successfully' }));
   }),
 ];
