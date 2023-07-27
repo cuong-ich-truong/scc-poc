@@ -23,8 +23,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: npm ci
+      - name: Cypress run
         working-directory: ./frontend
+        uses: cypress-io/github-action@v5
         run: |
           npm ci
           npm run start:mock
