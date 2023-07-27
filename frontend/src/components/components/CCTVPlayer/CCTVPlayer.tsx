@@ -1,10 +1,11 @@
 import React, { memo } from 'react';
 import 'regenerator-runtime/runtime';
-import { CCTV } from '../../../types/CCTV';
+import { Camera } from '../../../types/Premise';
 import ReactHlsPlayer from 'react-hls-player';
+import { testId } from '../../../testing/testId';
 
 export interface Props {
-  cctv: CCTV;
+  cctv: Camera;
 }
 const CCTVPlayer: React.FC<Props> = memo(({ cctv }) => {
   return (
@@ -18,6 +19,7 @@ const CCTVPlayer: React.FC<Props> = memo(({ cctv }) => {
         width="100%"
         height="auto"
         muted
+        data-testid={testId.cctvPlayer}
       />
     </div>
   );

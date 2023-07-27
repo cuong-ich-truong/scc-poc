@@ -1,23 +1,24 @@
 import './DashboardPage.css';
 import React, { useEffect, useState } from 'react';
 import PageContainer from '../../layout/PageContainer/PageContainer';
-import { login } from '../../../api/session.api';
+import { getGuards, login } from '../../../api/users.api';
 import { useLocation } from 'react-router-dom';
 import { User } from '../../../types/User';
 import { Col, Input, Row } from 'reactstrap';
 import { ACCESS_TOKEN_KEY, USER_ID_KEY, USERNAME_KEY, writeToSessionStorage } from '../../../utils/sessionStorage';
-import { getCCTVStreams } from '../../../api/cctv-streams.api';
-import { CCTV, Incident } from '../../../types/CCTV';
+import { getPremises } from '../../../api/premises.api';
+import { Incident, Premise } from '../../../types/Premise';
 import { ignoreAlert, sendAlert } from '../../../api/incidents.api';
-import IncidentAlert from '../../components/IncidentAlert/IncidentAlert';
+import IncidentsListPopup from '../../components/IncidentsListPopup/IncidentsListPopup';
 import CCTVPlayer from '../../components/CCTVPlayer/CCTVPlayer';
+import { testId } from '../../../testing/testId';
 
 const DashboardPage: React.FC = () => {
   let { state } = useLocation();
   const [user, setUser] = useState<User>();
-  const [cctvs, setCCTVs] = useState<CCTV[]>([]);
-  const [allCCTVs, setAllCCTVs] = useState<CCTV[]>([]);
-  const [floors, setFloors] = useState<string[]>([]);
+  const [premises, setPremises] = useState<Premise[]>([]);
+  const [selectedPremise, setSelectedPremise] = useState<Premise>();
+  const [guards, setGuards] = useState<User[]>([]);
 
   useEffect(() => {
     login('username', 'password').then((user_) => {
@@ -27,65 +28,65 @@ const DashboardPage: React.FC = () => {
       state = { user: user_ };
       setUser(user_);
 
-      getCCTVStreams().then((cctvs_) => {
-        setAllCCTVs(cctvs_);
-        updateFloorsFromCCTVs(cctvs_);
-      });
+      getGuards().then((guards_) => setGuards(guards_));
+      getPremises().then((premises_) => setPremises(premises_));
     });
   }, []);
 
-  const updateFloorsFromCCTVs = (cctvs: CCTV[]) => {
-    setFloors(
-      cctvs.reduce((floors_: string[], cctv: CCTV) => {
-        if (!floors_.includes(cctv.floorName)) {
-          floors_.push(cctv.floorName);
-        }
-        return floors_;
-      }, [])
-    );
+  const onSendAlert = async (incident: Incident, guardId: string) => {
+    await sendAlert(incident.id, guardId);
+    incident.guardId = guardId;
   };
 
-  const updateCCTVs = (floorName: string) => setCCTVs(allCCTVs.filter((cctv) => cctv.floorName === floorName));
-
-  const onSendAlert = async (incident?: Incident) => {
-    if (incident) {
-      await sendAlert(incident.id);
-      incident.sent = true;
-      setCCTVs([...cctvs]);
-    }
+  const onIgnoreAlert = async (incident: Incident) => {
+    await ignoreAlert(incident.id);
+    incident.ignore = true;
   };
 
-  const onIgnoreAlert = async (incident?: Incident) => {
-    if (incident) {
-      await ignoreAlert(incident.id);
-      incident.sent = true;
-      setCCTVs([...cctvs]);
+  const onChangePremise = (e) => {
+    const premise = premises.find((premise_) => premise_.id === e.target.value);
+    if (premise) {
+      setSelectedPremise(premise);
+    } else {
+      setSelectedPremise(undefined);
     }
   };
 
   return (
     <PageContainer user={user}>
       <div className="dashboard-page-container">
-        <div className="cctv-property-input">
-          <Input type="select" id="floors" name="floors" onChange={(e) => updateCCTVs(e.target.value)}>
+        <div className="camera-property-input">
+          <Input
+            type="select"
+            id="premises"
+            name="premises"
+            data-testid={testId.premisesDropdown}
+            onChange={onChangePremise}
+          >
             <option defaultChecked={true}>Select Floor</option>
-            {floors.map((floor: string) => (
-              <option key={floor} value={floor}>
-                Floor {floor}
+            {premises.map((premise: Premise) => (
+              <option key={premise.id} value={premise.id}>
+                {premise.name}
               </option>
             ))}
           </Input>
         </div>
         <Row xs="2" className="m-0 cctvs-container">
-          {cctvs.map((cctv) => (
-            <Col key={cctv.id} className="bg-light border">
-              <div className="camera-info-container">
-                <span>{cctv.cameraName}</span>
-                <IncidentAlert cctv={cctv} onSendAlert={onSendAlert} onIgnoreAlert={onIgnoreAlert} />
-              </div>
-              <CCTVPlayer cctv={cctv} />
-            </Col>
-          ))}
+          {selectedPremise &&
+            selectedPremise.cameras.map((camera) => (
+              <Col key={camera.id} className="bg-light border">
+                <div className="camera-info-container">
+                  <span>{camera.name}</span>
+                  <IncidentsListPopup
+                    cctv={camera}
+                    guards={guards}
+                    onSendAlert={onSendAlert}
+                    onIgnoreAlert={onIgnoreAlert}
+                  />
+                </div>
+                <CCTVPlayer cctv={camera} />
+              </Col>
+            ))}
         </Row>
       </div>
     </PageContainer>
