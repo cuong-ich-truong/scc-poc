@@ -13,7 +13,7 @@ describe('Security Command Center', () => {
     cy.shouldShowButtonsForNthAlertItem(0);
     cy.shouldShowButtonsForNthAlertItem(1);
     cy.clickSendAlertForNthAlertAndNthGuard(0, 0);
-    // cy.clickIgnoreAlertForNthAlert(1);
-    // cy.shouldShowCCTVsAndAlerts(4, 0);
+    cy.clickIgnoreAlertForNthAlert(1);
+    cy.shouldShowCCTVsAndAlerts(4, 0);
   });
 });
