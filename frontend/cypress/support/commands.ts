@@ -30,6 +30,7 @@ Cypress.Commands.add('shouldShowCCTVsAndAlerts', (minNumberOfCCTVs: number, minN
 });
 
 Cypress.Commands.add('openNthAlertPopover', (alertIndex: number) => {
+  console.log(`openNthAlertPopover: ${alertIndex}`);
   cy.getByTestId(testId.showIncidentPopoverButton).eq(alertIndex).click();
   cy.getByTestId(testId.sendAlertButton).should('be.visible').and('be.enabled');
   cy.getByTestId(testId.ignoreAlertButton).should('be.visible').and('be.enabled');
@@ -54,10 +55,13 @@ Cypress.Commands.add('shouldShowButtonsForNthAlertItem', (alertIndex: number) =>
 });
 
 Cypress.Commands.add('clickSendAlertForNthAlertAndNthGuard', (alertIndex: number, guardIndex: number) => {
+  console.log(`clickSendAlertForNthAlertAndNthGuard - sendAlertButton: ${alertIndex}`);
   cy.getByTestId(testId.sendAlertButton).eq(alertIndex).click();
+  console.log(`clickSendAlertForNthAlertAndNthGuard - alertGuardButton: ${guardIndex}`);
   cy.getByTestId(testId.alertGuardButton).eq(guardIndex).click();
 });
 
 Cypress.Commands.add('clickIgnoreAlertForNthAlert', (alertIndex: number) => {
+  console.log(`clickIgnoreAlertForNthAlert: ${alertIndex}`);
   cy.getByTestId(testId.alertListGroupItem).eq(alertIndex).getByTestId(testId.ignoreAlertButton).click();
 });
