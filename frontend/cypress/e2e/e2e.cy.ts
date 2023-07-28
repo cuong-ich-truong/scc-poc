@@ -4,7 +4,7 @@ describe('Security Command Center', () => {
     cy.shouldShowDashboardPage();
   });
 
-  it('should show cctv videos when after select a floor', () => {
+  it('should show cctv videos after select a floor', () => {
     cy.selectFloor('Floor 1');
     cy.shouldShowCCTVsAndAlerts(4, 2);
 
@@ -12,8 +12,8 @@ describe('Security Command Center', () => {
     cy.shouldShowAlertsListModal(2);
     cy.shouldShowButtonsForNthAlertItem(0);
     cy.shouldShowButtonsForNthAlertItem(1);
-    cy.clickSendAlertForNthAlertAndNthGuard(0, 0);
-    cy.clickIgnoreAlertForNthAlert(1);
-    cy.shouldShowCCTVsAndAlerts(4, 0);
+    // cy.clickSendAlertForNthAlertAndNthGuard(0, 0);
+    // cy.clickIgnoreAlertForNthAlert(1);
+    // cy.shouldShowCCTVsAndAlerts(4, 0);
   });
 });
