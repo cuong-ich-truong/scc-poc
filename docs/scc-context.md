@@ -11,19 +11,11 @@
     Person(operator, "Operator", "Operator works in the operations center")
     Person(guard, "Security Guard", "Security Guards patrolling the facility")
 
-    Boundary(backend, "SCC System") {
-      System(sccApp, "SCC Application", "Security Command Center Application")
-      System(alertSys, "Alert System", "Alert System")
-      System_Ext(cctv, "CCTV", "Closed Circuit Television")
-    }
-    System(phone, "Phone", "Mobile App")
+    System_Ext(cctv, "CCTV", "Multiple closed-circuit television (CCTV) cameras")
+    System(scc, "Security Command Center System", "Allow users to monitor and respond to alerts")
 
-    Rel(cctv, sccApp, "Sends Video Feed")
-    Rel(alertSys, sccApp, "Sends Alerts")
-    Rel(sccApp, phone, "Sends Alert Notifications")
-    Rel(phone, sccApp, "Sends Incident Reports")
-
-    Rel(operator, sccApp, "Monitor CCTV, View and Assign Alerts")
-    Rel(guard, phone, "Acknowledge Alerts / Report Incidents")   
+    Rel(cctv, scc, "Sends Video Feed")
+    Rel_Left(operator, scc, "Monitor CCTV, View and Assign Alerts")
+    Rel_Right(guard, scc, "Acknowledge Alerts / Report Incidents")   
 @enduml
 ```
