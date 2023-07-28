@@ -12,6 +12,20 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
-    - name: npm ci
+    - name: Install and Run tests
       working-directory: ./frontend
-      run: npm ci
+      run: |
+        npm ci
+        npm test
+
+  test-e2e:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        with:
+          working-directory: ./frontend
+          start: npm run start:mock
+          test: npm run cypress:run -- --config baseUrl=http://localhost:3000

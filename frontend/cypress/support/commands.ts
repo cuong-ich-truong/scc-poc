@@ -59,5 +59,5 @@ Cypress.Commands.add('clickSendAlertForNthAlertAndNthGuard', (alertIndex: number
 });
 
 Cypress.Commands.add('clickIgnoreAlertForNthAlert', (alertIndex: number) => {
-  cy.getByTestId(testId.alertListGroupItem).eq(alertIndex).getByTestId(testId.ignoreAlertButton).click();
+  cy.getByTestId(testId.ignoreAlertButton).eq(alertIndex).click();
 });
