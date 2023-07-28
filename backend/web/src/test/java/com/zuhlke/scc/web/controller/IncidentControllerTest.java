@@ -1,9 +1,10 @@
 package com.zuhlke.scc.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zuhlke.scc.web.dto.IncidentDto;
-import com.zuhlke.scc.web.dto.IncidentRequest;
-import com.zuhlke.scc.web.service.IncidentService;
+import com.zuhlke.scc.web.domain.incident.IncidentController;
+import com.zuhlke.scc.web.domain.incident.IncidentDto;
+import com.zuhlke.scc.web.domain.incident.IncidentRequest;
+import com.zuhlke.scc.web.domain.incident.IncidentService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

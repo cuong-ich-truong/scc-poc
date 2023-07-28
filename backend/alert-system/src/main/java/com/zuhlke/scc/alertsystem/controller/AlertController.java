@@ -1,7 +1,7 @@
 package com.zuhlke.scc.alertsystem.controller;
 
-import com.zuhlke.scc.alertsystem.dto.CustomMessageRequest;
-import com.zuhlke.scc.alertsystem.dto.MessageRequest;
+import com.zuhlke.scc.alertsystem.kafka.CustomMessageRequest;
+import com.zuhlke.scc.alertsystem.kafka.MessageRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

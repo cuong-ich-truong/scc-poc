@@ -1,9 +1,10 @@
 package com.zuhlke.scc.web.service;
 
-import com.zuhlke.scc.web.db.entity.IncidentEntity;
-import com.zuhlke.scc.web.db.repository.IncidentRepository;
-import com.zuhlke.scc.web.dto.IncidentDto;
-import com.zuhlke.scc.web.dto.IncidentRequest;
+import com.zuhlke.scc.web.domain.incident.IncidentEntity;
+import com.zuhlke.scc.web.domain.incident.IncidentRepository;
+import com.zuhlke.scc.web.domain.incident.IncidentService;
+import com.zuhlke.scc.web.domain.incident.IncidentDto;
+import com.zuhlke.scc.web.domain.incident.IncidentRequest;
 import com.zuhlke.scc.web.exception.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

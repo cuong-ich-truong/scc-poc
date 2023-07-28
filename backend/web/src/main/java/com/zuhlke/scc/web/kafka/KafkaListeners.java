@@ -1,7 +1,6 @@
 package com.zuhlke.scc.web.kafka;
 
-import com.zuhlke.scc.web.dto.CustomMessageRequest;
-import com.zuhlke.scc.web.kafka.config.KafkaConsumerConfig;
+import com.zuhlke.scc.web.config.KafkaConsumerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
