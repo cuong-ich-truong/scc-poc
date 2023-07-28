@@ -26,5 +26,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
+          working-directory: ./frontend
           start: npm run start:mock
           test: npm run cypress:run -- --config baseUrl=http://localhost:3000
