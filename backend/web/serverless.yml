@@ -1,5 +1,5 @@
 
-service: scc-sls-api
+service: web
 
 custom:
   cameraTableName: 'java-camera-${self:provider.stage}'
@@ -37,15 +37,15 @@ package:
   artifact: 'target/${self:service}-${self:provider.stage}.jar'
 
 functions:
-  getPremises:
-    handler: com.serverless.GetPremisesHandler
+  getAllIncidents:
+    handler: com.zuhlke.scc.web.domain.incident.serverlesshandler.GetAllIncidentsHandler
     events:
       - http:
-          path: /premises
+          path: /incidents
           method: get
-plugins:
-  - serverless-offline
-  - serverless-dynamodb
+#plugins:
+#  - serverless-offline
+#  - serverless-dynamodb
 
 
 resources:

@@ -10,6 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>alert-system</artifactId>
+    <groupId>com.zuhlke.scc.alert-system</groupId>
+    <packaging>jar</packaging>
+    <version>dev</version>
+    <name>scc-alert-system</name>
 
     <dependencies>
         <dependency>
