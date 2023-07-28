@@ -35,16 +35,31 @@
 
 ## Running in local
 
-1. Install and run DynamoDB in local
+1. Install plugin
 
     ```bash
     serverless plugin install -n serverless-offline
     ```
-    
+
 2. Invoke function locally
 
     ```bash
     sls offline
+    serverless offline
+    ```
+
+If there is error with message `java.lang.NoClassDefFoundError: Could not initialize class org.codehaus.groovy.vmplugin.v7.Java7`. Please try to install Java 8 and set JAVA_HOME to Java 8.
+
+    ```bash
+    > /usr/libexec/java_home -V
+    Matching Java Virtual Machines (4):
+    20.0.1 (x86_64) "Eclipse Adoptium" - "OpenJDK 20.0.1" /Library/Java/JavaVirtualMachines/temurin-20.jdk/Contents/Home
+    18.0.2 (arm64) "Amazon.com Inc." - "Amazon Corretto 18" /Library/Java/JavaVirtualMachines/amazon-corretto-18.jdk/Contents/Home
+    17.0.4.1 (x86_64) "Eclipse Adoptium" - "OpenJDK 17.0.4.1" /Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
+    1.8.0_292 (x86_64) "AdoptOpenJDK" - "AdoptOpenJDK 8" /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
+    /Library/Java/JavaVirtualMachines/temurin-20.jdk/Contents/Home
+    
+    > export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_292`
     ```
 
 ## Build and Deploy
