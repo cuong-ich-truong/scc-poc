@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Data
 @NoArgsConstructor
-@DynamoDBTable(tableName = "incident")
+@DynamoDBTable(tableName = "incident-dev")
 public class IncidentEntity {
 
     @DynamoDBHashKey

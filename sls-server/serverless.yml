@@ -43,9 +43,9 @@ functions:
       - http:
           path: /premises
           method: get 
-#plugins:
-#  - serverless-offline
-#  - serverless-dynamodb
+plugins:
+  - serverless-offline
+  - serverless-dynamodb
 
 
 resources:
