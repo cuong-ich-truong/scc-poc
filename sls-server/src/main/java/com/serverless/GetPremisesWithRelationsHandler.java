@@ -25,6 +25,7 @@ public class GetPremisesWithRelationsHandler implements RequestHandler<Map<Strin
     				.setStatusCode(200)
     				.setObjectBody(premises)
     				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+						.enableCors()
     				.build();
     } catch (Exception ex) {
         logger.error("Error in listing premises: " + ex);
@@ -35,6 +36,7 @@ public class GetPremisesWithRelationsHandler implements RequestHandler<Map<Strin
   					.setStatusCode(500)
   					.setObjectBody(responseBody)
   					.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+						.enableCors()	
   					.build();
     }
 	}

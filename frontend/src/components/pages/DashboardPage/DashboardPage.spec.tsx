@@ -104,7 +104,7 @@ describe(DashboardPage.name, () => {
     getPremisesMock.mockResolvedValue([premise1, premise2]);
   });
 
-  it('should render dashboard with floors dropdown', async () => {
+  it.only('should render dashboard with premises dropdown', async () => {
     render(<DashboardPage />);
 
     expect(screen.getByTestId(testId.premisesDropdown)).toBeVisible();
@@ -112,7 +112,7 @@ describe(DashboardPage.name, () => {
     await waitFor(() => expect(screen.getByText(premise2.name)).toBeInTheDocument());
   });
 
-  it('should render cctv players after selecting a floor', async () => {
+  it('should render cctv players after selecting a premise', async () => {
     render(<DashboardPage />);
 
     fireEvent.click(screen.getByTestId(testId.premisesDropdown));
@@ -130,7 +130,7 @@ describe(DashboardPage.name, () => {
     fireEvent.click(screen.getAllByTestId(testId.showIncidentPopoverButton)[0]);
     await waitFor(() => expect(screen.getByTestId(testId.alertPopup)).toBeVisible());
     await waitFor(() =>
-      expect(screen.getAllByTestId(testId.alertListGroupItem)).toHaveLength(premise1.cameras[0].incidents.length)
+      expect(screen.getAllByTestId(testId.alertListGroupItem)).toHaveLength(premise1.cameras[0].incidents!.length)
     );
   });
 
@@ -144,7 +144,7 @@ describe(DashboardPage.name, () => {
     fireEvent.click(screen.getAllByTestId(testId.showIncidentPopoverButton)[0]);
     await waitFor(() => expect(screen.getByTestId(testId.alertPopup)).toBeVisible());
     await waitFor(() =>
-      expect(screen.getAllByTestId(testId.alertListGroupItem)).toHaveLength(premise1.cameras[0].incidents.length)
+      expect(screen.getAllByTestId(testId.alertListGroupItem)).toHaveLength(premise1.cameras[0].incidents!.length)
     );
 
     fireEvent.click(screen.getAllByTestId(testId.sendAlertButton)[0]);
