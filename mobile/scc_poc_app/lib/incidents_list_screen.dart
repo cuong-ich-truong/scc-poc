@@ -64,10 +64,10 @@ class _IncidentsListScreenState extends State<IncidentsListScreen> {
   }
 
   void _handleMessage(RemoteMessage message) {
-      goToDetailScreen();
+      _goToDetailScreen();
   }
 
-  void goToDetailScreen() {
+  void _goToDetailScreen() {
     Navigator.push(
         context, 
         MaterialPageRoute(builder: (context) => const IncidentDetailScreen())
@@ -101,13 +101,18 @@ class _IncidentsListScreenState extends State<IncidentsListScreen> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ElevatedButton(onPressed: 
+            _goToDetailScreen, 
+            child: const Text("Go to Incident Detail screen"),),
+          ],
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
