@@ -45,9 +45,12 @@ jobs:
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
         with:
+          working-directory: ./frontend
           name: production-files
           path: ./dist
 
+      - name: Check dist folder 
+        run: pwd && ls -la
   deploy:
     name: Deploy
     needs: build
