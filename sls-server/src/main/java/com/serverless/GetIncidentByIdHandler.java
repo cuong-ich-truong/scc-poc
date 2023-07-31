@@ -9,16 +9,16 @@ import org.apache.logging.log4j.Logger;
 import java.util.Collections;
 import java.util.Map;
 
+import static com.serverless.utils.RequestUtils.getPathVariable;
+
 public class GetIncidentByIdHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
-    private Logger logger = LogManager.getLogger(this.getClass());
+    private final Logger logger = LogManager.getLogger(this.getClass());
 
     @Override
     public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
         try {
-            Map<String, String> pathParameters = (Map<String, String>) input.get("pathParameters");
-            String incidentId = pathParameters.get("incidentId");
-            Incident incident = new Incident().get(incidentId);
+            Incident incident = new Incident().get(getPathVariable(input, "incidentId"));
 
             // send the response back
             return ApiGatewayResponse.builder()
