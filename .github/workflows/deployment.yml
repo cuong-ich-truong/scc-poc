@@ -2,15 +2,19 @@ name: Deploy
 
 on:
   push:
+    paths:
+      - "frontend/**"
     branches: ["main", "41-add-vite-deployment"]
   pull_request:
+    paths:
+      - "frontend/**"
     branches: ["main"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: ./frontend
+# defaults:
+#   run:
+#     working-directory: ./frontend
 
 jobs:
   build:
@@ -27,7 +31,16 @@ jobs:
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
-      - name: Build project
+      - name: Check current folder
+        run: pwd && ls -la
+
+      - name: Go to frontend folder
+        run: cd frontend && pwd && ls -la
+
+      # - name: Install dependencies
+      #   run: npm install
+
+      - name: Build
         run: npm run build
 
       - name: Upload production-ready build files
