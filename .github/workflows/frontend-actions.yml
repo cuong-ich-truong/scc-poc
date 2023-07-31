@@ -1,11 +1,19 @@
 name: Frontend Check
 run-name: ${{ github.actor }} is building and testing frontend app 🚀
 on:
+  push:
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend-actions.yml'
+    branches:
+      - '*'
   pull_request:
     paths:
-      - "frontend/**"
-      - ".github/workflows/frontend-actions.yml"
-    branches: ["main"]
+      - 'frontend/**'
+      - '.github/workflows/frontend-actions.yml'
+    branches:
+      - main
+      
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
