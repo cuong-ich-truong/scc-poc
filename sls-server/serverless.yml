@@ -2,6 +2,7 @@
 service: scc-sls-api
 
 custom:
+  incidentTableName: 'java-incident-${self:provider.stage}'
   guardTableName: 'java-guard-${self:provider.stage}'
   cameraTableName: 'java-camera-${self:provider.stage}'
   premiseTableName: 'java-premise-${self:provider.stage}'
@@ -28,10 +29,12 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
+        - { "Fn::GetAtt": ["IncidentDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["GuardDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["CameraDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["PremiseDynamoDBTable", "Arn" ] }
   environment:
+    INCIDENT_TABLE_NAME: ${self:custom.incidentTableName}
     GUARD_TABLE_NAME: ${self:custom.guardTableName}
     CAMERA_TABLE_NAME: ${self:custom.cameraTableName}
     PREMISE_TABLE_NAME: ${self:custom.premiseTableName}
@@ -76,6 +79,12 @@ functions:
       - http:
           path: /guards
           method: get
+  updateIncident:
+    handler: com.serverless.UpdateIncidentHandler
+    events:
+      - http:
+          path: /incidents/{incidentId}
+          method: put
 plugins:
   - serverless-offline
   - serverless-dynamodb
@@ -83,6 +92,19 @@ plugins:
 
 resources:
   Resources:
+    IncidentDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.incidentTableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
     GuardDynamoDBTable:
       Type: AWS::DynamoDB::Table
       Properties:

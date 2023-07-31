@@ -11,7 +11,7 @@ import { testId } from './testing/testId';
 
 console.log(`Application version: ${getApplicationVersion()}`);
 
-let serverMockEnable = JSON.parse(import.meta.env.VITE_SERVER_MOCKS_ENABLED);
+let serverMockEnable = JSON.parse(import.meta.env.VITE_SERVER_MOCKS_ENABLED || true);
 if (serverMockEnable) {
   worker.start({ onUnhandledRequest: 'bypass' });
 }

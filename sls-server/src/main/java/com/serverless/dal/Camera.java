@@ -4,7 +4,6 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
@@ -46,7 +45,6 @@ public class Camera {
         this.id = id;
     }
 
-    @DynamoDBRangeKey(attributeName = "name")
     public String getName() {
         return this.name;
     }
@@ -56,7 +54,6 @@ public class Camera {
     }
 
 
-    @DynamoDBRangeKey(attributeName = "streamUrl")
     public String getStreamUrl() {
         return this.streamUrl;
     }
@@ -65,7 +62,6 @@ public class Camera {
         this.streamUrl = streamUrl;
     }
 
-    @DynamoDBRangeKey(attributeName = "premiseId")
     public String getPremiseId() {
         return this.premiseId;
     }
@@ -118,8 +114,19 @@ public class Camera {
         return record;
     }
 
-    public void save(Camera record) throws IOException {
-        logger.info("Cameras - save(): " + record.toString());
+    public Camera updateName(String id, String name) throws IOException {
+
+        Camera camera = this.mapper.load(Camera.class, id);
+        logger.info("Camera - load(): record - " + camera.toString());
+
+        camera.setName(name);
+        save(camera);
+        
+        return camera;
+    }
+
+    public void save(Camera record) {
+        logger.info("Camera - save(): " + record.toString());
         this.mapper.save(record);
     }
 
