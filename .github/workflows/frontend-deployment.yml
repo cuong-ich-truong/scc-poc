@@ -7,12 +7,6 @@ on:
       - '.github/workflows/frontend-deployment.yml'
     branches:
       - main
-  # pull_request:
-  #   paths:
-  #     - 'frontend/**'
-  #     - '.github/workflows/frontend-deployment.yml'
-  #   branches:
-  #     - main
 
 jobs:
   build:
@@ -20,13 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: secrets
-        run: echo "${{ secrets.VITE_SERVER_MOCKS_ENABLED }}"
-      - name: env
-        run: echo "${{ env.VITE_SERVER_MOCKS_ENABLED }}"
-      - name: vars
-        run: echo "${{ vars.VITE_SERVER_MOCKS_ENABLED }}"
-        
       - name: Checkout repo
         uses: actions/checkout@v2
 
@@ -44,7 +31,7 @@ jobs:
         working-directory: ./frontend
         run: npm run build
         env:
-          VITE_SERVER_MOCKS_ENABLED: ${{ env.VITE_SERVER_MOCKS_ENABLED }}
+          VITE_SERVER_MOCKS_ENABLED: ${{ vars.VITE_SERVER_MOCKS_ENABLED }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
