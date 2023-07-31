@@ -2,8 +2,9 @@ name: Deploy
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main", "41-add-vite-deployment"]
+  pull_request:
+    branches: ["main"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -33,10 +34,10 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        uses: yarn install
 
       - name: Build project
-        run: npm run build
+        run: yarn build
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
