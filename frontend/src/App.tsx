@@ -14,7 +14,8 @@ const App = () => {
       <ErrorBoundary FallbackComponent={ErrorFallbackPage} onError={handleError}>
         <Routes>
           <Route path={`${basePathPrefix}/${Page.DASHBOARD}`} element={<DashboardPage />} />
-          <Route path="*" element={<Navigate to={`${basePathPrefix}/${Page.DASHBOARD}`} />} />
+          <Route path={`${basePathPrefix}`} element={<DashboardPage />} />
+          <Route path={`${basePathPrefix}/*`} element={<Navigate to={`${basePathPrefix}/${Page.DASHBOARD}`} />} />
         </Routes>
       </ErrorBoundary>
     </div>
