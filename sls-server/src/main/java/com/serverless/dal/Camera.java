@@ -27,7 +27,7 @@ public class Camera {
 
     private static DynamoDBAdapter db_adapter;
     private final AmazonDynamoDB client;
-    private final DynamoDBMapper mapper;
+    protected DynamoDBMapper mapper;
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -94,9 +94,7 @@ public class Camera {
     public List<Camera> list() throws IOException {
         DynamoDBScanExpression scanExp = new DynamoDBScanExpression();
         List<Camera> results = this.mapper.scan(Camera.class, scanExp);
-        for (Camera p : results) {
-            logger.info("Cameras - list(): " + p.toString());
-        }
+        results.forEach(camera -> logger.info("Cameras - list(): " + camera.toString()));
         return results;
     }
 
