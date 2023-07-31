@@ -5,7 +5,7 @@ on:
     paths:
       - "frontend/**"
       - ".github/workflows/frontend-deployment.yml"
-    branches: ["main", "41-add-vite-deployment"]
+    branches: ["main"]
   pull_request:
     paths:
       - "frontend/**"
@@ -31,9 +31,6 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
       
-      - name: Check current folder
-        run: pwd && ls -la
-
       - name: Install dependencies 
         uses: bahmutov/npm-install@v1
         with:
@@ -48,14 +45,11 @@ jobs:
         with:
           name: production-files
           path: ./frontend/dist
-
-      # - name: Check dist folder 
-      #   run: pwd && ls -la
   deploy:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/41-add-vite-deployment'
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Download artifact
