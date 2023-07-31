@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: `${env.VITE_BASE_PATH_PREFIX ?? '/ssc-poc/'}`,
+    base: `${env.VITE_BASE_PATH_PREFIX ?? '/scc-poc/'}`,
     test: {
       globals: true,
       environment: 'jsdom',
