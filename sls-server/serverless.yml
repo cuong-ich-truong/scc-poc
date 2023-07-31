@@ -106,6 +106,12 @@ functions:
       - http:
           path: /notes
           method: post
+  updateIncident:
+    handler: com.serverless.UpdateIncidentHandler
+    events:
+      - http:
+          path: /incidents/{incidentId}
+          method: put
 
 plugins:
   - serverless-offline
