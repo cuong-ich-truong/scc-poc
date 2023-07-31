@@ -2,6 +2,7 @@
 service: scc-sls-api
 
 custom:
+  guardTableName: 'java-guard-${self:provider.stage}'
   cameraTableName: 'java-camera-${self:provider.stage}'
   premiseTableName: 'java-premise-${self:provider.stage}'
   dynamodb:
@@ -27,9 +28,11 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
+        - { "Fn::GetAtt": ["GuardDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["CameraDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["PremiseDynamoDBTable", "Arn" ] }
   environment:
+    GUARD_TABLE_NAME: ${self:custom.guardTableName}
     CAMERA_TABLE_NAME: ${self:custom.cameraTableName}
     PREMISE_TABLE_NAME: ${self:custom.premiseTableName}
 
@@ -42,7 +45,25 @@ functions:
     events:
       - http:
           path: /premises
-          method: get 
+          method: get
+  getPremisesWithRelations:
+    handler: com.serverless.GetPremisesWithRelationsHandler
+    events:
+      - http:
+          path: /premises/relations
+          method: get
+  getCameras:
+    handler: com.serverless.GetCamerasHandler
+    events:
+      - http:
+          path: /cameras
+          method: get
+  getGuards:
+    handler: com.serverless.GetGuardsHandler
+    events:
+      - http:
+          path: /guards
+          method: get
 plugins:
   - serverless-offline
   - serverless-dynamodb
@@ -50,6 +71,19 @@ plugins:
 
 resources:
   Resources:
+    GuardDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.guardTableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
     CameraDynamoDBTable:
       Type: AWS::DynamoDB::Table
       Properties:
