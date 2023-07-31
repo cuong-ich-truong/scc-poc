@@ -16,7 +16,6 @@ public class GetIncidentsHandler implements RequestHandler<Map<String, Object>, 
     @Override
     public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
         try {
-            // get all premises
             List<Incident> incidents = new Incident().list();
 
             // send the response back

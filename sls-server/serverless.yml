@@ -5,6 +5,8 @@ custom:
   guardTableName: 'java-guard-${self:provider.stage}'
   cameraTableName: 'java-camera-${self:provider.stage}'
   premiseTableName: 'java-premise-${self:provider.stage}'
+  incidentTableName: 'java-incident-${self:provider.stage}'
+  noteTableName: 'java-note-${self:provider.stage}'
   dynamodb:
     # start:
     #   port: 8002
@@ -31,10 +33,14 @@ provider:
         - { "Fn::GetAtt": ["GuardDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["CameraDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["PremiseDynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["IncidentDynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["NoteDynamoDBTable", "Arn" ] }
   environment:
     GUARD_TABLE_NAME: ${self:custom.guardTableName}
     CAMERA_TABLE_NAME: ${self:custom.cameraTableName}
     PREMISE_TABLE_NAME: ${self:custom.premiseTableName}
+    INCIDENT_TABLE_NAME: ${self:custom.incidentTableName}
+    NOTE_TABLE_NAME: ${self:custom.noteTableName}
 
 package:
   artifact: 'target/${self:service}-${self:provider.stage}.jar'
@@ -76,6 +82,31 @@ functions:
       - http:
           path: /guards
           method: get
+  createIncident:
+    handler: com.serverless.CreateIncidentHandler
+    events:
+      - http:
+          path: /incidents
+          method: post
+  getNotes:
+    handler: com.serverless.GetNotesHandler
+    events:
+      - http:
+          path: /notes
+          method: get
+  getNoteById:
+    handler: com.serverless.GetNoteByIdHandler
+    events:
+      - http:
+          path: /notes/{noteId}
+          method: get
+  createNote:
+    handler: com.serverless.CreateNoteHandler
+    events:
+      - http:
+          path: /notes
+          method: post
+
 plugins:
   - serverless-offline
   - serverless-dynamodb
@@ -113,6 +144,32 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:custom.premiseTableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    IncidentDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.incidentTableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    NoteDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.noteTableName}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S

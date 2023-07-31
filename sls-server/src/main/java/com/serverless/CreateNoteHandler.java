@@ -2,30 +2,38 @@ package com.serverless;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.serverless.dal.Incident;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.serverless.dal.Note;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.Map;
 
-public class GetIncidentByIdHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
+public class CreateNoteHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
     private Logger logger = LogManager.getLogger(this.getClass());
 
     @Override
     public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
         try {
-            Map<String, String> pathParameters = (Map<String, String>) input.get("pathParameters");
-            String incidentId = pathParameters.get("incidentId");
-            Incident incident = new Incident().get(incidentId);
+            // Get the body from the input and cast to String
+            String body = (String) input.get("body");
 
-            // send the response back
+            // Use Jackson (or similar) to convert JSON string to Note object
+            ObjectMapper mapper = new ObjectMapper();
+            Note note = mapper.readValue(body, Note.class);
+
+            logger.info("Note request " + note);
+
+            Note createdNote = new Note().create(note);
+
             return ApiGatewayResponse.builder()
-                .setStatusCode(200)
-                .setObjectBody(incident)
+                .setStatusCode(201)
+                .setObjectBody(createdNote)
                 .setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
                 .build();
+
         } catch (Exception ex) {
             logger.error("Error in getting incident: " + ex);
 
@@ -39,3 +47,5 @@ public class GetIncidentByIdHandler implements RequestHandler<Map<String, Object
         }
     }
 }
+
+
