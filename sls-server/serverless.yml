@@ -52,17 +52,17 @@ functions:
       - http:
           path: /premises
           method: get
-  getIncidents:
-    handler: com.serverless.GetIncidentsHandler
-    events:
-      - http:
-          path: /incidents
-          method: get
   getIncidentById:
     handler: com.serverless.GetIncidentByIdHandler
     events:
       - http:
           path: /incidents/{incidentId}
+          method: get
+  getIncidentsByGuardId:
+    handler: com.serverless.GetIncidentsByGuardIdHandler
+    events:
+      - http:
+          path: /incidents
           method: get
   getPremisesWithRelations:
     handler: com.serverless.GetPremisesWithRelationsHandler

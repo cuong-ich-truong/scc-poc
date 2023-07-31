@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @DynamoDBTable(tableName = "INCIDENT_TABLE_NAME")
 public class Incident {
@@ -162,5 +163,16 @@ public class Incident {
     public void save(Incident record) {
         logger.info("Incident - save(): " + record.toString());
         this.mapper.save(record);
+    }
+
+    public List<Incident> getIncidentsByGuardId(String guardId) throws IOException {
+        DynamoDBScanExpression scanExp = new DynamoDBScanExpression();
+        List<Incident> incidents = this.mapper.scan(Incident.class, scanExp);
+
+        List<Incident> filteredIncidents = incidents.stream()
+            .filter(incident -> guardId.equals(incident.getGuardId()))
+            .collect(Collectors.toList());
+
+        return filteredIncidents;
     }
 }
