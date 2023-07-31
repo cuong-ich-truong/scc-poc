@@ -39,6 +39,7 @@ jobs:
           working-directory: ./frontend
 
       - name: Build
+        working-directory: ./frontend
         run: pwd && npm run build
 
       - name: Upload production-ready build files
