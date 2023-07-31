@@ -12,6 +12,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    environment: dev
 
     steps:
       - name: Checkout repo
@@ -27,11 +28,21 @@ jobs:
         with:
           working-directory: ./frontend
 
+      - name: Set environment vars
+        run: |
+          echo "VITE_APPLICATION_VERSION: ${{ env.VITE_APPLICATION_VERSION }}"
+          echo "VITE_SERVER_MOCKS_ENABLED: ${{ env.VITE_SERVER_MOCKS_ENABLED }}"
+          echo "VITE_SERVER_BASE_URL: ${{ env.VITE_SERVER_BASE_URL }}"
+          echo "VITE_BASE_PATH_PREFIX: ${{ env.VITE_BASE_PATH_PREFIX }}"
+          
       - name: Build project
         working-directory: ./frontend
         run: npm run build
         env:
+          VITE_APPLICATION_VERSION: ${{ env.VITE_APPLICATION_VERSION }}
           VITE_SERVER_MOCKS_ENABLED: ${{ vars.VITE_SERVER_MOCKS_ENABLED }}
+          VITE_SERVER_BASE_URL: ${{ vars.VITE_SERVER_BASE_URL }}
+          VITE_BASE_PATH_PREFIX: ${{ vars.VITE_BASE_PATH_PREFIX }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
@@ -43,6 +54,7 @@ jobs:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
+    environment: dev
     if: github.ref == 'refs/heads/main'
 
     steps:
