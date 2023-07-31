@@ -1,4 +1,4 @@
-name: Fronted Deployment
+name: Frontend Deployment
 
 on:
   push:
@@ -14,9 +14,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# defaults:
-#   run:
-#     working-directory: ./frontend
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
