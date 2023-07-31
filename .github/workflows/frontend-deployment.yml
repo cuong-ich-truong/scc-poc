@@ -3,21 +3,9 @@ name: Frontend Deployment
 on:
   push:
     paths:
-      - "frontend/**"
-      - ".github/workflows/frontend-deployment.yml"
-    branches: ["main"]
-  pull_request:
-    paths:
-      - "frontend/**"
-      - ".github/workflows/frontend-deployment.yml"
-    branches: ["main"]
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
+      - frontend/**
+    branches:
+      - main
 
 jobs:
   build:
@@ -26,46 +14,43 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
-      
+        uses: actions/checkout@v2
+
       - name: Setup Node
-        uses: actions/setup-node@v3
-      
-      - name: Install dependencies 
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Install dependencies
         uses: bahmutov/npm-install@v1
         with:
           working-directory: ./frontend
 
-      - name: Build
+      - name: Build project
         working-directory: ./frontend
-        run: pwd && npm run build
+        run: npm run build
 
       - name: Upload production-ready build files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: production-files
           path: ./frontend/dist
+
   deploy:
     name: Deploy
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
         with:
           name: production-files
           path: ./dist
-        
+
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-
-          
+          publish_dir: ./dist
