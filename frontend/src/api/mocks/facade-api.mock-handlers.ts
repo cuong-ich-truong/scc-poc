@@ -14,11 +14,11 @@ export const facadeApiMockHandlers = [
     return res(ctx.status(200), ctx.json(mockedGuardsResponse));
   }),
 
-  rest.get(`${API_BASE_URL}/premises`, (req, res, ctx) => {
+  rest.get(`${API_BASE_URL}/premises/relations`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockedPremisesResponse));
   }),
 
-  rest.put(`${API_BASE_URL}/incidents/:indidentId`, (req, res, ctx) => {
+  rest.put(`${API_BASE_URL}/incidents/:incidentId`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockedGenericResponse));
   }),
 ];

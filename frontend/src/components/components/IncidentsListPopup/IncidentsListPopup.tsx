@@ -31,7 +31,9 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
   const toggle = () => setModal(!modal);
 
   useEffect(() => {
-    setIncidents(cctv.incidents);
+    if (cctv.incidents) {
+      setIncidents(cctv.incidents);
+    }
   }, []);
 
   const onSendAlert_ = async (incident: Incident, guardId: string) => {
