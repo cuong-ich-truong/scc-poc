@@ -93,3 +93,9 @@ deploy with -s (stage) variable that we used
     ```bash
     serverless remove
     ```
+   
+## Code Coverage (Jacoco)
+
+1. Run `mvn package` or `mvn clean install` to build, run tests and generate coverage report
+
+2. Report location: `sls-server/target/site/jacoco/index.html`
