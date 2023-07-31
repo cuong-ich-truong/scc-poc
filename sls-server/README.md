@@ -38,15 +38,13 @@
 1. Install and run DynamoDB in local
 
     ```bash
-    npm install serverless-dynamodb
-    serverless dynamodb install
-    serverless dynamodb start
+    serverless plugin install -n serverless-offline
     ```
     
 2. Invoke function locally
 
     ```bash
-    serverless invoke local --function hello
+    sls offline
     ```
 
 ## Build and Deploy
@@ -66,6 +64,32 @@
 
 3. Cleanup
   
+    ```bash
+    serverless remove
+    ```
+
+## Build and Deploy with stage (should apply in local only)
+
+1. Change <version> in pom to any [stageName]
+   ```
+   <version>test</version>
+   ```
+2. Build
+
+    ```bash
+    mvn clean package
+    mvn package
+    ```
+
+3. Deploy
+deploy with -s (stage) variable that we used
+
+    ```bash
+    serverless deploy -s test
+    ```
+
+4. Cleanup
+
     ```bash
     serverless remove
     ```
