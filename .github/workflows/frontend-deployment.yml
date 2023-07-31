@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: production-files
-          path: ./fronted/dist
+          path: ./frontend/dist
 
       # - name: Check dist folder 
       #   run: pwd && ls -la
