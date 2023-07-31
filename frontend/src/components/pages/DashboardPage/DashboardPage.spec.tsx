@@ -104,7 +104,7 @@ describe(DashboardPage.name, () => {
     getPremisesMock.mockResolvedValue([premise1, premise2]);
   });
 
-  it.only('should render dashboard with premises dropdown', async () => {
+  it('should render dashboard with premises dropdown', async () => {
     render(<DashboardPage />);
 
     expect(screen.getByTestId(testId.premisesDropdown)).toBeVisible();
