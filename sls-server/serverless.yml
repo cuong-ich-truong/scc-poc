@@ -42,7 +42,19 @@ functions:
     events:
       - http:
           path: /premises
-          method: get 
+          method: get
+  getIncidents:
+    handler: com.serverless.GetIncidentsHandler
+    events:
+      - http:
+          path: /incidents
+          method: get
+  getIncidentById:
+    handler: com.serverless.GetIncidentByIdHandler
+    events:
+      - http:
+          path: /incidents/{incidentId}
+          method: get
 plugins:
   - serverless-offline
   - serverless-dynamodb
