@@ -3,6 +3,7 @@ package com.serverless;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -66,6 +67,15 @@ public class ApiGatewayResponse {
 
 		public Builder setHeaders(Map<String, String> headers) {
 			this.headers = headers;
+			return this;
+		}
+
+		public Builder enableCors() {
+      Map<String, String> copy = new HashMap<String, String>(this.headers);
+			copy.put("Access-Control-Allow-Origin", "*");
+			copy.put("Access-Control-Allow-Methods", "*");
+			this.headers = copy;
+
 			return this;
 		}
 

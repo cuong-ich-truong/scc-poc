@@ -7,13 +7,6 @@ custom:
   premiseTableName: 'java-premise-${self:provider.stage}'
   incidentTableName: 'java-incident-${self:provider.stage}'
   noteTableName: 'java-note-${self:provider.stage}'
-  dynamodb:
-    # start:
-    #   port: 8002
-    #   inMemory: true
-    #   migrate: true
-    stages:
-      - dev
 
 provider:
   name: aws
@@ -70,6 +63,7 @@ functions:
       - http:
           path: /premises/relations
           method: get
+          cors: true
   getCameras:
     handler: com.serverless.GetCamerasHandler
     events:
