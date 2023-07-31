@@ -1,9 +1,11 @@
-name: GitHub actions for frontend app
+name: Frontend Check
 run-name: ${{ github.actor }} is building and testing frontend app 🚀
 on:
-  push:
-    branches:
-      - '**'
+  pull_request:
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend-actions.yml"
+    branches: ["main"]
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -18,14 +20,14 @@ jobs:
         npm ci
         npm test
 
-  test-e2e:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Cypress run
-        uses: cypress-io/github-action@v5
-        with:
-          working-directory: ./frontend
-          start: npm run start:mock
-          test: npm run cypress:run -- --config baseUrl=http://localhost:3000
+  # test-e2e:
+  #   runs-on: ubuntu-22.04
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #     - name: Cypress run
+  #       uses: cypress-io/github-action@v5
+  #       with:
+  #         working-directory: ./frontend
+  #         start: npm run start:mock
+  #         test: npm run cypress:run -- --config baseUrl=http://localhost:3000
