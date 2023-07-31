@@ -5,7 +5,7 @@ on:
     paths:
       - "frontend/**"
       - ".github/workflows/frontend-deployment.yml"
-    branches: ["main"]
+    branches: ["main", "41-fix-deploy-step"]
   pull_request:
     paths:
       - "frontend/**"
@@ -47,9 +47,12 @@ jobs:
           path: ./frontend/dist
   deploy:
     name: Deploy
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/41-fix-deploy-step'
 
     steps:
       - name: Download artifact
@@ -59,7 +62,10 @@ jobs:
           path: ./dist
         
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+
+          
