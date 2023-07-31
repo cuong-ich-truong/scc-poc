@@ -5,7 +5,7 @@ on:
     paths:
       - "frontend/**"
       - ".github/workflows/frontend-deployment.yml"
-    branches: ["main", "41-fix-deploy-step"]
+    branches: ["main"]
   pull_request:
     paths:
       - "frontend/**"
@@ -52,7 +52,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/41-fix-deploy-step'
+    if: github.ref == 'main'
 
     steps:
       - name: Download artifact
