@@ -33,17 +33,13 @@ jobs:
       - name: Check current folder
         run: pwd && ls -la
 
-      - name: Go to frontend folder
-        run: cd frontend && pwd && ls -la
-
-      - name: Install dependencies
+      - name: Install dependencies 
         uses: bahmutov/npm-install@v1
-
-      # - name: Install dependencies
-      #   run: npm install
+        with:
+          working-directory: ./frontend
 
       - name: Build
-        run: npm run build
+        run: pwd && npm run build
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
