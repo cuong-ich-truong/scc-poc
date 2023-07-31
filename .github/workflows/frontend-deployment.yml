@@ -7,6 +7,7 @@ on:
       - '.github/workflows/frontend-deployment.yml'
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
