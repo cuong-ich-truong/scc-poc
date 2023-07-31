@@ -1,11 +1,11 @@
-name: Fronted Deployment
+name: Frontend Deployment
 
 on:
   push:
     paths:
       - "frontend/**"
       - ".github/workflows/frontend-deployment.yml"
-    branches: ["main", "41-add-vite-deployment"]
+    branches: ["main"]
   pull_request:
     paths:
       - "frontend/**"
@@ -14,9 +14,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# defaults:
-#   run:
-#     working-directory: ./frontend
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build:
@@ -30,9 +31,6 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
       
-      - name: Check current folder
-        run: pwd && ls -la
-
       - name: Install dependencies 
         uses: bahmutov/npm-install@v1
         with:
@@ -47,9 +45,6 @@ jobs:
         with:
           name: production-files
           path: ./frontend/dist
-
-      # - name: Check dist folder 
-      #   run: pwd && ls -la
   deploy:
     name: Deploy
     needs: build
@@ -62,7 +57,7 @@ jobs:
         with:
           name: production-files
           path: ./dist
-
+        
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
