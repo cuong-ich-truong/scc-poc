@@ -12,3 +12,9 @@ target
 
 # Serverless directories
 .serverless
+.serverless-offline
+
+#Dynamo DB
+.dynamodb
+
+node_modules
