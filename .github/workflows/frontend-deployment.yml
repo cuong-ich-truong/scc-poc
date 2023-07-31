@@ -37,7 +37,7 @@ jobs:
         working-directory: ./frontend
         run: npm run build
         env:
-          VITE_SERVER_MOCKS_ENABLED: ${{ secrets.VITE_SERVER_MOCKS_ENABLED }}
+          VITE_SERVER_MOCKS_ENABLED: ${{ env.VITE_SERVER_MOCKS_ENABLED }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
