@@ -7,12 +7,12 @@ on:
       - '.github/workflows/frontend-deployment.yml'
     branches:
       - main
-  pull_request:
-    paths:
-      - 'frontend/**'
-      - '.github/workflows/frontend-deployment.yml'
-    branches:
-      - main
+  # pull_request:
+  #   paths:
+  #     - 'frontend/**'
+  #     - '.github/workflows/frontend-deployment.yml'
+  #   branches:
+  #     - main
 
 jobs:
   build:
