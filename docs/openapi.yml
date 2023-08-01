@@ -1,0 +1,186 @@
+openapi: '3.0.2'
+info:
+  title: Security Command Center API
+  version: '1.0'
+servers:
+  - url: https://api.server.test/v1
+
+components:
+  schemas:
+    Camera:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        streamUrl:
+          type: string
+        Incidents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Incident'
+    Guard:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        token:
+          type: string
+    Incident:
+      type: object
+      properties:
+        id:
+          type: string
+        guardId:
+          type: string
+        ignored:
+          type: boolean
+        cameraId:
+          type: string
+        location:
+          type: string
+        status:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+    Premise:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        cameras:
+          type: array
+          items:
+            $ref: '#/components/schemas/Camera'
+        guards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Guard'
+
+tags:
+  - name: Cameras
+    description: Cameras endpoints
+  - name: Guards
+    description: Security Guard endpoints
+  - name: Incidents
+    description: Incident endpoints
+  - name: Premises
+    description: Premises endpoints
+  
+paths:
+  # Guards
+  /guards:
+    get:
+      tags:
+        - Guards
+      description: Returns a list of guards.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Guard'
+  /guards/{guard_id}/incidents:
+    get:
+      tags:
+        - Guards
+      description: Returns a list of incidents for the specified guard.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Incident'                  
+  /guards/{guard_id}/{token}:
+    post:
+      tags:
+        - Guards
+      description: Register the security guard to the only-duty list.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Guard id.
+  # Incidents
+  /incidents:
+    get:
+      tags:
+        - Incidents
+      description: Returns a list of incidents.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Incident'
+    post:
+      tags:
+        - Incidents
+      description: Creates a new incident.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+  /incidents/{incident_id}:
+    get:
+      tags:
+        - Incidents
+      description: Returns the specified incident.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+    put:
+      tags:
+        - Incidents
+      description: Updates the specified incident.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+  # Premises
+  /premises:
+    get:
+      tags:
+        - Premises
+      description: Returns a list of premises.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Premise'
+
