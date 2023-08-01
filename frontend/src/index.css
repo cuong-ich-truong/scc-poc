@@ -71,3 +71,12 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.loading-spinner {
+  display: flex;
+  margin: auto 0;
+}
+
+.loading-spinner span {
+  margin: auto 8px;
+}

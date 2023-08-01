@@ -6,7 +6,7 @@ import { getPremises } from '../../../api/premises.api';
 import { ignoreAlert, sendAlert } from '../../../api/incidents.api';
 import { useLocation } from 'react-router-dom';
 import { User } from '../../../types/User';
-import { Col, Input, Row } from 'reactstrap';
+import { Col, Input, Row, Spinner } from 'reactstrap';
 import { ACCESS_TOKEN_KEY, USER_ID_KEY, USERNAME_KEY, writeToSessionStorage } from '../../../utils/sessionStorage';
 import { Incident, Premise } from '../../../types/Premise';
 import IncidentsListPopup from '../../components/IncidentsListPopup/IncidentsListPopup';
@@ -19,6 +19,7 @@ const DashboardPage: React.FC = () => {
   const [premises, setPremises] = useState<Premise[]>([]);
   const [selectedPremise, setSelectedPremise] = useState<Premise>();
   const [guards, setGuards] = useState<User[]>([]);
+  const [isFetchingData, setIsFetchingData] = useState(false);
 
   useEffect(() => {
     login('username', 'password').then((user_) => {
@@ -28,8 +29,12 @@ const DashboardPage: React.FC = () => {
       state = { user: user_ };
       setUser(user_);
 
+      setIsFetchingData(true);
       getGuards().then((guards_) => setGuards(guards_));
-      getPremises().then((premises_) => setPremises(premises_));
+      getPremises().then((premises_) => {
+        setPremises(premises_);
+        setIsFetchingData(false);
+      });
     });
   }, []);
 
@@ -60,33 +65,41 @@ const DashboardPage: React.FC = () => {
             type="select"
             id="premises"
             name="premises"
+            disabled={isFetchingData}
             data-testid={testId.premisesDropdown}
             onChange={onChangePremise}
           >
-            <option defaultChecked={true}>Select Floor</option>
+            <option defaultChecked={true}>Select Premise</option>
             {premises.map((premise: Premise) => (
               <option key={premise.id} value={premise.id}>
                 {premise.name}
               </option>
             ))}
           </Input>
+          {isFetchingData && (
+            <div className="loading-spinner">
+              <Spinner></Spinner> <span>Loading...</span>
+            </div>
+          )}
         </div>
         <Row xs="2" className="m-0 cctvs-container">
           {selectedPremise &&
-            selectedPremise.cameras.map((camera) => (
-              <Col key={camera.id} className="bg-light border">
-                <div className="camera-info-container">
-                  <span>{camera.name}</span>
-                  <IncidentsListPopup
-                    cctv={camera}
-                    guards={guards}
-                    onSendAlert={onSendAlert}
-                    onIgnoreAlert={onIgnoreAlert}
-                  />
-                </div>
-                <CCTVPlayer cctv={camera} />
-              </Col>
-            ))}
+            selectedPremise.cameras
+              .sort((left, right) => (left.name < right.name ? -1 : 1))
+              .map((camera) => (
+                <Col key={camera.id} className="bg-light border">
+                  <div className="camera-info-container">
+                    <span>{camera.name}</span>
+                    <IncidentsListPopup
+                      cctv={camera}
+                      guards={guards}
+                      onSendAlert={onSendAlert}
+                      onIgnoreAlert={onIgnoreAlert}
+                    />
+                  </div>
+                  <CCTVPlayer cctv={camera} />
+                </Col>
+              ))}
         </Row>
       </div>
     </PageContainer>
