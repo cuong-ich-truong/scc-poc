@@ -5,14 +5,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 
-class IncidentDetailScreen extends StatefulWidget {
-  const IncidentDetailScreen({super.key});
+class SendNoteScreen extends StatefulWidget {
+  const SendNoteScreen({super.key, required this.incidentId});
+  final String incidentId;
 
   @override
-  State<IncidentDetailScreen> createState() => _IncidentDetailScreenState();
+  State<SendNoteScreen> createState() => _SendNoteScreenState();
 }
 
-class _IncidentDetailScreenState extends State<IncidentDetailScreen> {
+class _SendNoteScreenState extends State<SendNoteScreen> {
 
   // This is the file that will be used to store the image
   File? _image;
@@ -82,13 +83,22 @@ class _IncidentDetailScreenState extends State<IncidentDetailScreen> {
         Padding(padding: const EdgeInsets.all(35), 
           child: ListView(padding: const EdgeInsets.all(8),
           children: [
+            const TextField(
+            obscureText: false,
+            keyboardType: TextInputType.multiline,
+            maxLines: 5,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Description',
+          )),  
+          const SizedBox(height: 25),
            _image != null ? Image.file(_image!, fit: BoxFit.cover) 
                           : Center( child: ElevatedButton(
                                     onPressed: _openImagePicker,
                                     child: const Text("Take an image"),
           ),
           ),
-          const SizedBox(height: 45),
+          const SizedBox(height: 25),
           _video != null ? _displayVideo(_video!)
                          : Center( child: ElevatedButton(
                                    onPressed: _openVideoPicker,
