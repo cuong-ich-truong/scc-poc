@@ -27,7 +27,7 @@ public class UpdateGuardTokenHandler implements RequestHandler<Map<String, Objec
 
             // update guard token
             Guard updatedGuard = new Guard().updateToken(getPathVariable(input, "guardId"),
-                    getRequestBody(input, UpdateGuardTokenRequest.class).token);
+                    getPathVariable(input, "token"));
 
             // send the response back
             return ApiGatewayResponse.builder()

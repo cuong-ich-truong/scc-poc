@@ -3,7 +3,7 @@ info:
   title: Security Command Center API
   version: '1.0'
 servers:
-  - url: https://api.server.test/v1
+  - url: https://6s7ti8egme.execute-api.us-east-1.amazonaws.com/scc-poc
 
 components:
   schemas:
@@ -16,7 +16,9 @@ components:
           type: string
         streamUrl:
           type: string
-        Incidents:
+        premiseId:
+          type: string
+        incidents:
           type: array
           items:
             $ref: '#/components/schemas/Incident'
@@ -25,7 +27,9 @@ components:
       properties:
         id:
           type: string
-        name:
+        username:
+          type: string
+        firstname:
           type: string
         token:
           type: string
@@ -58,20 +62,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Camera'
-        guards:
-          type: array
-          items:
-            $ref: '#/components/schemas/Guard'
+    UpdateIncidentRequest:
+      type: object
+      properties:
+        guardId:
+          type: string
+        ignored:
+          type: boolean
 
 tags:
-  - name: Cameras
-    description: Cameras endpoints
   - name: Guards
     description: Security Guard endpoints
-  - name: Incidents
-    description: Incident endpoints
   - name: Premises
     description: Premises endpoints
+  - name: Incidents
+    description: Incident endpoints
   
 paths:
   # Guards
@@ -104,7 +109,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Incident'                  
   /guards/{guard_id}/{token}:
-    post:
+    put:
       tags:
         - Guards
       description: Register the security guard to the only-duty list.
@@ -114,11 +119,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    description: Guard id.
+                $ref: '#/components/schemas/Guard'
   # Incidents
   /incidents:
     get:
@@ -138,6 +139,11 @@ paths:
       tags:
         - Incidents
       description: Creates a new incident.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Incident'
       responses:
         '200':
           description: OK
@@ -161,6 +167,11 @@ paths:
       tags:
         - Incidents
       description: Updates the specified incident.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIncidentRequest'
       responses:
         '200':
           description: OK
@@ -183,4 +194,3 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Premise'
-

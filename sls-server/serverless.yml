@@ -110,7 +110,7 @@ functions:
     handler: com.serverless.UpdateGuardTokenHandler
     events:
       - http:
-          path: /guards/{guardId}/token
+          path: /guards/{guardId}/{token}
           method: put
 
 plugins:
