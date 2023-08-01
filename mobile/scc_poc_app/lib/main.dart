@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:scc_poc_app/incidents_list_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:scc_poc_app/screens/login/login_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Incidents List',
+      title: 'Login',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const IncidentsListScreen(title: 'Flutter Demo Home Page'),
+      home: const LoginScreen(),
     );
   }
 }
