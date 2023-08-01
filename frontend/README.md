@@ -12,13 +12,10 @@
 ## Local development setup
 Create a `.env` file in the root of project frontend and add the following environment variable:
 ```dotenv
-VITE_APPLICATION_VERSION=local
 VITE_SERVER_MOCKS_ENABLED=true
-VITE_SERVER_BASE_URL=
-VITE_BASE_PATH_PREFIX=
 ``` 
 
-[//]: # (TODO: update VITE_SERVER_BASE_URL and VITE_BASE_PATH_PREFIX after ingeration with backend)
+[//]: # (TODO: update VITE_SERVER_BASE_URL and VITE_SERVER_STAGE after ingeration with backend)
 
 If first time, install dependencies:
 ```
