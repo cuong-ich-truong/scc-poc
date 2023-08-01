@@ -8,7 +8,8 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.serverless.dto.UpdateIncidentRequestBody;
+import com.serverless.dto.UpdateIncidentRequest;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
@@ -145,14 +146,14 @@ public class Incident {
         return incident;
     }
 
-    public Incident update(String id, UpdateIncidentRequestBody updateIncidentRequestBody) throws IOException {
+    public Incident update(String id, UpdateIncidentRequest updateIncidentRequest) {
         Incident incident = this.mapper.load(Incident.class, id);
         logger.info("Incident - load(): record - " + incident.toString());
 
-        if (StringUtils.isNotBlank(updateIncidentRequestBody.guardId) && StringUtils.isBlank(incident.getGuardId())) {
-            incident.setGuardId(updateIncidentRequestBody.guardId);
+        if (StringUtils.isNotBlank(updateIncidentRequest.guardId) && StringUtils.isBlank(incident.getGuardId())) {
+            incident.setGuardId(updateIncidentRequest.guardId);
         }
-        if (updateIncidentRequestBody.ignore) {
+        if (BooleanUtils.isTrue(updateIncidentRequest.ignore)) {
             incident.setIgnored(true);
         }
         save(incident);
@@ -165,7 +166,7 @@ public class Incident {
         this.mapper.save(record);
     }
 
-    public List<Incident> getIncidentsByGuardId(String guardId) throws IOException {
+    public List<Incident> getIncidentsByGuardId(String guardId) {
         DynamoDBScanExpression scanExp = new DynamoDBScanExpression();
         List<Incident> incidents = this.mapper.scan(Incident.class, scanExp);
 

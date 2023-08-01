@@ -2,7 +2,7 @@ package com.serverless.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UpdateIncidentRequestBody {
+public class UpdateIncidentRequest {
     @JsonProperty("guardId")
     public String guardId;
     @JsonProperty("ignore")

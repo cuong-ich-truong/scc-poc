@@ -9,16 +9,16 @@ import org.apache.logging.log4j.Logger;
 import java.util.Collections;
 import java.util.Map;
 
+import static com.serverless.utils.RequestUtils.getPathVariable;
+
 public class GetNoteByIdHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
-    private Logger logger = LogManager.getLogger(this.getClass());
+    private final Logger logger = LogManager.getLogger(this.getClass());
 
     @Override
     public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
         try {
-            Map<String, String> pathParameters = (Map<String, String>) input.get("pathParameters");
-            String noteId = pathParameters.get("noteId");
-            Note note = new Note().getNotetById(noteId);
+            Note note = new Note().getNotetById(getPathVariable(input, "noteId"));
 
             // send the response back
             return ApiGatewayResponse.builder()
