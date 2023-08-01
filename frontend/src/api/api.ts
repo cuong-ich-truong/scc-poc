@@ -1,16 +1,13 @@
 import { ExceptionResponse } from './dto/ExceptionResponse';
 import { ApiException } from './api.exception';
+import { basePathPrefix } from '../navigation/basePathPrefix';
 
 const serverBaseUrl = import.meta.env.VITE_SERVER_BASE_URL ?? '';
-const basePathPrefix = import.meta.env.VITE_BASE_PATH_PREFIX ?? '';
-const xApiKey =  import.meta.env.VITE_X_API_KEY ?? '';
+const serverStage = import.meta.env.VITE_SERVER_STAGE ?? '';
+const xApiKey = import.meta.env.VITE_X_API_KEY ?? '';
 
-export const API_BASE_URL = `${serverBaseUrl}/${basePathPrefix}`;
+export const API_BASE_URL = `${serverBaseUrl}/${serverStage}${basePathPrefix ? `/${basePathPrefix}` : ''}`;
 export const X_API_KEY_HEADER = 'x-api-key';
-export const USER_ID_HEADER_KEY = 'user-id';
-export const USERNAME_HEADER_KEY = 'username';
-export const ACCESS_TOKEN_HEADER_KEY = 'access-token';
-export const AUTHORIZATION_INFORMATION_HEADER_KEY = 'authorization-information';
 export const CONTENT_TYPE_HEADER_KEY = 'Content-Type';
 
 export type RequestMethod = 'GET' | 'POST' | 'PUT';

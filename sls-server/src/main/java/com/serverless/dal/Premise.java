@@ -105,7 +105,15 @@ public class Premise {
         List<Camera> cameras = new Camera().list();
         cameras.forEach(camera -> {
             if (!StringUtils.isBlank(camera.getPremiseId()) && premiseMap.containsKey(camera.getPremiseId())) {
-                premiseMap.get(camera.getPremiseId()).cameras.add(camera);
+                premiseMap.get(camera.getPremiseId()).getCameras().add(camera);
+            }
+        });
+
+        Map<String, Camera> cameraMap = cameras.stream().collect(Collectors.toMap(Camera::getId, Function.identity()));
+        List<Incident> incidents = new Incident().list();
+        incidents.forEach(incident -> {
+            if (!StringUtils.isBlank(incident.getCameraId()) && cameraMap.containsKey(incident.getCameraId())) {
+                cameraMap.get(incident.getCameraId()).getIncidents().add(incident);
             }
         });
         return premises;
