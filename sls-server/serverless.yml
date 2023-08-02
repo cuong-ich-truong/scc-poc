@@ -7,6 +7,23 @@ custom:
   premiseTableName: 'java-premise-${self:provider.stage}'
   incidentTableName: 'java-incident-${self:provider.stage}'
   noteTableName: 'java-note-${self:provider.stage}'
+  seed:
+    guardsSeed:
+      table: 'java-guard-${self:provider.stage}'
+      sources:
+        - database-seeds/guards.json
+    premisesSeed:
+      table: 'java-premise-${self:provider.stage}'
+      sources:
+        - database-seeds/premises.json
+    camerasSeed:
+      table: 'java-camera-${self:provider.stage}'
+      sources:
+        - database-seeds/cameras.json
+    incidentsSeed:
+      table: 'java-incident-${self:provider.stage}'
+      sources:
+        - database-seeds/incidents.json
 
 provider:
   name: aws
@@ -116,7 +133,7 @@ functions:
 plugins:
   - serverless-offline
   - serverless-dynamodb
-
+  - serverless-dynamodb-seed
 
 resources:
   Resources:
