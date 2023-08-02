@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalHeader,
   PopoverBody,
+  Spinner,
   UncontrolledPopover,
 } from 'reactstrap';
 import { CgDanger } from 'react-icons/cg';
@@ -28,6 +29,7 @@ export interface Props {
 const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgnoreAlert }) => {
   const [incidents, setIncidents] = useState<Incident[]>([]);
   const [modal, setModal] = useState(false);
+  const [updatingIncidentId, setUpdatingIncidentId] = useState<string | undefined>();
   const toggle = () => setModal(!modal);
 
   useEffect(() => {
@@ -37,13 +39,17 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
   }, []);
 
   const onSendAlert_ = async (incident: Incident, guardId: string) => {
+    setUpdatingIncidentId(incident.id);
     await onSendAlert(incident, guardId);
     setIncidents([...incidents]);
+    setUpdatingIncidentId(undefined);
   };
 
   const onIgnoreAlert_ = async (incident: Incident) => {
+    setUpdatingIncidentId(incident.id);
     await onIgnoreAlert(incident);
     setIncidents([...incidents]);
+    setUpdatingIncidentId(undefined);
   };
 
   const getGuardName = (guardId: string) => guards.find((guard) => guard.id === guardId)?.firstname ?? '';
@@ -75,14 +81,20 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
                   <span>
                     {moment(incident.dateCreated).format('DD/MM/YYYY hh:mm A') +
                       `${incident.ignore ? ' - Ignored' : ''}` +
-                      `${incident.guardId !== undefined ? ' - Assigned to: ' + getGuardName(incident.guardId) : ''}`}
+                      `${!!incident.guardId ? ' - Assigned to: ' + getGuardName(incident.guardId) : ''}`}
                   </span>
                   {isIncidentActive(incident) && (
                     <div className="incident-buttons-container">
+                      {!!updatingIncidentId && updatingIncidentId === incident.id && (
+                        <div className="loading-spinner">
+                          <Spinner></Spinner>
+                        </div>
+                      )}
                       <Button
                         id={`popover-${incident.id}`}
                         type="button"
                         color="danger"
+                        disabled={!!updatingIncidentId}
                         data-testid={testId.sendAlertButton}
                       >
                         Send Alert
@@ -110,6 +122,7 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
                       <Button
                         type="button"
                         color="outline-dark"
+                        disabled={!!updatingIncidentId}
                         data-testid={testId.ignoreAlertButton}
                         onClick={() => onIgnoreAlert_(incident)}
                       >
