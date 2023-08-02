@@ -40,9 +40,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-        - s3:PutObject
-        - s3:GetObject
-        - s3:DeleteObject
+        - s3:*
       Resource:
         - { "Fn::GetAtt": ["GuardDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["CameraDynamoDBTable", "Arn" ] }
@@ -82,6 +80,7 @@ functions:
           method: get
   getIncidentsByGuardId:
     handler: com.serverless.GetIncidentsByGuardIdHandler
+    timeout: 20
     events:
       - http:
           path: /incidents
