@@ -13,25 +13,25 @@ export const mockedPremisesResponse: Premise[] = [
           {
             id: '63c0cf4cbb90b139dd6f6805',
             name: 'Stranger detected',
-            ignore: false,
+            ignored: false,
             dateCreated: '2023-07-26T11:13:42.908Z',
           },
           {
             id: '63c0cf4cbb90b139dd6f6905',
             name: 'Stranger 2 detected',
-            ignore: false,
+            ignored: false,
             dateCreated: '2023-07-27T11:13:42.908Z',
           },
           {
             id: '63c0cf4cbb90b139dd6f7805',
             name: 'Dog detected',
-            ignore: true,
+            ignored: true,
             dateCreated: '2023-05-15T11:12:42.908Z',
           },
           {
             id: '63c0cf4cbb90b139dd6f8805',
             name: 'Cat detected',
-            ignore: false,
+            ignored: false,
             guardId: '63c0cf4cbb90b139dd6f6804',
             dateCreated: '2023-05-15T11:13:42.908Z',
           },
@@ -45,7 +45,7 @@ export const mockedPremisesResponse: Premise[] = [
           {
             id: '63c0cf4cbb90b139dd6f6805',
             name: 'Dog detected',
-            ignore: true,
+            ignored: true,
             dateCreated: '2023-05-15T11:13:42.908Z',
           },
         ],
@@ -58,7 +58,7 @@ export const mockedPremisesResponse: Premise[] = [
           {
             id: '63c0cf4cbb90b139dd6f6805',
             name: 'Cat detected',
-            ignore: false,
+            ignored: false,
             guardId: '63c0cf4cbb90b139dd6f6804',
             dateCreated: '2023-05-15T11:13:42.908Z',
           },
@@ -72,19 +72,19 @@ export const mockedPremisesResponse: Premise[] = [
           {
             id: '63c0cf4cbb90b139dd6f6805',
             name: 'Mouse detected',
-            ignore: false,
+            ignored: false,
             dateCreated: '2023-07-27T11:13:42.908Z',
           },
           {
             id: '63c0cf4cbb90b139dd6f6815',
             name: 'Cat detected',
-            ignore: false,
+            ignored: false,
             dateCreated: '2023-07-27T11:15:42.908Z',
           },
           {
             id: '63c0cf4cbb90b139dd6f6825',
             name: 'Dog detected',
-            ignore: false,
+            ignored: false,
             dateCreated: '2023-07-26T11:15:42.908Z',
           },
         ],
@@ -103,7 +103,7 @@ export const mockedPremisesResponse: Premise[] = [
           {
             id: '63c0cf4cbb90b139dd6f6805',
             name: 'Stranger detected',
-            ignore: true,
+            ignored: true,
             dateCreated: '2023-05-15T11:13:42.908Z',
           },
         ],
@@ -116,7 +116,7 @@ export const mockedPremisesResponse: Premise[] = [
           {
             id: '63c0cf4cbb90b139dd6f6805',
             name: 'Dog detected',
-            ignore: false,
+            ignored: false,
             guardId: '63c0cf4cbb90b139dd6f6805',
             dateCreated: '2023-05-15T11:13:42.908Z',
           },
@@ -130,7 +130,7 @@ export const mockedPremisesResponse: Premise[] = [
           {
             id: '63c0cf4cbb90b139dd6f6805',
             name: 'Cat detected',
-            ignore: false,
+            ignored: false,
             dateCreated: '2023-07-27T11:13:42.908Z',
           },
         ],

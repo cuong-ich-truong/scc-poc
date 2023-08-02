@@ -14,7 +14,7 @@ export interface Camera {
 export interface Incident {
   id: string;
   name: string;
-  ignore: boolean;
+  ignored: boolean;
   guardId?: string;
   dateCreated: string;
 }
