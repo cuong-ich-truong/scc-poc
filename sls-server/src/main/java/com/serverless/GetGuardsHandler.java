@@ -25,6 +25,7 @@ public class GetGuardsHandler implements RequestHandler<Map<String, Object>, Api
                     .setStatusCode(200)
                     .setObjectBody(guards)
                     .setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+                    .enableCors()
                     .build();
         } catch (Exception ex) {
             logger.error("Error in listing guards: " + ex);
@@ -35,6 +36,7 @@ public class GetGuardsHandler implements RequestHandler<Map<String, Object>, Api
                     .setStatusCode(500)
                     .setObjectBody(responseBody)
                     .setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+                    .enableCors()
                     .build();
         }
     }

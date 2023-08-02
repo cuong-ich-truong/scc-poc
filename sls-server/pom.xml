@@ -4,7 +4,7 @@
   <groupId>com.serverless</groupId>
   <artifactId>scc-sls-api</artifactId>
   <packaging>jar</packaging>
-  <version>dev</version>
+  <version>${stage}</version>
   <name>scc-sls-api</name>
 
   <properties>
