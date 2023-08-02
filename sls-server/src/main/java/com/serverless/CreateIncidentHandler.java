@@ -32,6 +32,7 @@ public class CreateIncidentHandler implements RequestHandler<Map<String, Object>
                 .setStatusCode(201)
                 .setObjectBody(createdIncident)
                 .setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+                .enableCors()
                 .build();
 
         } catch (Exception ex) {
@@ -43,6 +44,7 @@ public class CreateIncidentHandler implements RequestHandler<Map<String, Object>
                 .setStatusCode(500)
                 .setObjectBody(responseBody)
                 .setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+                .enableCors()
                 .build();
         }
     }

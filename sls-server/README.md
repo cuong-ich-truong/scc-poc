@@ -35,71 +35,46 @@
 
 ## Running in local
 
-1. Install and run DynamoDB in local
+1. Install and run in local
 
     ```bash
     serverless plugin install -n serverless-offline
+    serverless plugin install -n serverless-dynamodb-seed
     ```
-    
+
 2. Invoke function locally
 
+    Serverless Offline will start a local server at http://localhost:3000 and connect to all resources in AWS of the given stage
+
     ```bash
-    sls offline
+    sls offline -stage=<environment_name> #e.g sls offline -stage=dev
     ```
 
-## Build and Deploy
+## Build, Deploy and Cleanup
 
 1. Build
 
     ```bash
-    mvn clean package
-    mvn package
+    mvn clean package -Dstage=<environment_name> #e.g mvn clean package -Dstage=dev
     ```
 
 2. Deploy
 
     ```bash
-    serverless deploy
-    ```
+    serverless deploy -stage=<environment_name> #e.g serverless deploy -stage=dev
+    ``
 
 3. Cleanup
   
     ```bash
-    serverless remove
+    serverless remove -stage=<environment_name> #e.g serverless remove -stage=dev
     ```
 
-## Build and Deploy with stage (should apply in local only)
-
-1. Change <version> in pom to any [stageName]
-   ```
-   <version>test</version>
-   ```
-2. Build
-
-    ```bash
-    mvn clean package
-    mvn package
-    ```
-
-3. Deploy
-deploy with -s (stage) variable that we used
-
-    ```bash
-    serverless deploy -s test
-    ```
-
-4. Cleanup
-
-    ```bash
-    serverless remove
-    ```
-   
 ## Code Coverage (Jacoco)
 
 1. Run `mvn package` or `mvn clean install` to build, run tests and generate coverage report
 
 2. Report location: `sls-server/target/site/jacoco/index.html`
-
 
 ## Run DynamoDB Seed
 
@@ -107,5 +82,4 @@ Please aware that the seeding will insert new records into table and not clear t
 
 1. Prepare/Update seed data in sls-server/database-seed, each json file store data for a table
 2. Update the table names and seed file path in serverless.yml file: custom.seed.{seadName}
-3. Run `sls dynamodb:seed -s ${stage}`.
-Ex: `sls dynamodb:seed -s uat`
+3. Run `sls dynamodb:seed -s ${stage}`. Ex: `sls dynamodb:seed -s uat`

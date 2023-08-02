@@ -6,7 +6,7 @@ const serverBaseUrl = import.meta.env.VITE_SERVER_BASE_URL ?? '';
 const serverStage = import.meta.env.VITE_SERVER_STAGE ?? '';
 const xApiKey = import.meta.env.VITE_X_API_KEY ?? '';
 
-export const API_BASE_URL = `${serverBaseUrl}/${serverStage}${basePathPrefix ? `/${basePathPrefix}` : ''}`;
+export const API_BASE_URL = `${serverBaseUrl}/${serverStage}`;
 export const X_API_KEY_HEADER = 'x-api-key';
 export const CONTENT_TYPE_HEADER_KEY = 'Content-Type';
 
@@ -20,6 +20,7 @@ const sendRequest = async <T>(
 ): Promise<T> => {
   const response = await fetch(url, {
     method,
+    // mode: 'cors',
     headers: {
       ...headers,
       [X_API_KEY_HEADER]: xApiKey,

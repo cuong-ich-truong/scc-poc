@@ -93,12 +93,14 @@ functions:
       - http:
           path: /guards
           method: get
+          cors: true
   createIncident:
     handler: com.serverless.CreateIncidentHandler
     events:
       - http:
           path: /incidents
           method: post
+          cors: true
   getNotes:
     handler: com.serverless.GetNotesHandler
     events:
@@ -123,6 +125,7 @@ functions:
       - http:
           path: /incidents/{incidentId}
           method: put
+          cors: true
   updateGuard:
     handler: com.serverless.UpdateGuardTokenHandler
     events:
@@ -132,7 +135,6 @@ functions:
 
 plugins:
   - serverless-offline
-  - serverless-dynamodb
   - serverless-dynamodb-seed
 
 resources:
