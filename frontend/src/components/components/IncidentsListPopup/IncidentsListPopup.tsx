@@ -7,9 +7,9 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
+  Popover,
   PopoverBody,
   Spinner,
-  UncontrolledPopover,
 } from 'reactstrap';
 import { CgDanger } from 'react-icons/cg';
 import { BsThreeDots } from 'react-icons/bs';
@@ -29,8 +29,11 @@ export interface Props {
 const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgnoreAlert }) => {
   const [incidents, setIncidents] = useState<Incident[]>([]);
   const [modal, setModal] = useState(false);
-  const [updatingIncidentId, setUpdatingIncidentId] = useState<string | undefined>();
-  const toggle = () => setModal(!modal);
+  const [popover, setPopover] = useState(false);
+  const [selectedIncidentId, setSelectedIncidentId] = useState<string | undefined>();
+  const [updatingIncident, setUpdatingIncident] = useState(false);
+  const toggleModal = () => setModal(!modal);
+  const togglePopover = () => setPopover(!popover);
 
   useEffect(() => {
     if (cctv.incidents) {
@@ -38,18 +41,27 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
     }
   }, []);
 
+  const onOpenPopover = (incidentId: string) => {
+    setSelectedIncidentId(incidentId);
+    setPopover(true);
+  };
+
   const onSendAlert_ = async (incident: Incident, guardId: string) => {
-    setUpdatingIncidentId(incident.id);
+    setUpdatingIncident(true);
+    setPopover(false);
     await onSendAlert(incident, guardId);
     setIncidents([...incidents]);
-    setUpdatingIncidentId(undefined);
+    setUpdatingIncident(false);
+    setSelectedIncidentId(undefined);
   };
 
   const onIgnoreAlert_ = async (incident: Incident) => {
-    setUpdatingIncidentId(incident.id);
+    setSelectedIncidentId(incident.id);
+    setUpdatingIncident(true);
     await onIgnoreAlert(incident);
     setIncidents([...incidents]);
-    setUpdatingIncidentId(undefined);
+    setUpdatingIncident(false);
+    setSelectedIncidentId(undefined);
   };
 
   const getGuardName = (guardId: string) => guards.find((guard) => guard.id === guardId)?.firstname ?? '';
@@ -59,7 +71,7 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
       <Button
         type="button"
         color={hasActiveIncident(incidents) ? 'outline-danger' : ''}
-        onClick={toggle}
+        onClick={toggleModal}
         data-testid={testId.showIncidentPopoverButton}
       >
         {hasActiveIncident(incidents) && (
@@ -69,8 +81,8 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
         )}
         <BsThreeDots size={20} />
       </Button>
-      <Modal isOpen={modal} toggle={toggle} data-testid={testId.alertPopup}>
-        <ModalHeader toggle={toggle}>{cctv.name} - Alerts List</ModalHeader>
+      <Modal isOpen={modal} toggle={toggleModal} data-testid={testId.alertPopup}>
+        <ModalHeader toggle={toggleModal}>{cctv.name} - Alerts List</ModalHeader>
         <ModalBody>
           <ListGroup flush>
             {incidents.length < 1 && <p className="m-3">There are no alerts from this camera</p>}
@@ -80,12 +92,12 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
                 <ListGroupItem key={incident.id} className="incident-container" data-testid={testId.alertListGroupItem}>
                   <span>
                     {moment(incident.dateCreated).format('DD/MM/YYYY hh:mm A') +
-                      `${incident.ignore ? ' - Ignored' : ''}` +
+                      `${incident.ignored ? ' - Ignored' : ''}` +
                       `${!!incident.guardId ? ' - Assigned to: ' + getGuardName(incident.guardId) : ''}`}
                   </span>
                   {isIncidentActive(incident) && (
                     <div className="incident-buttons-container">
-                      {!!updatingIncidentId && updatingIncidentId === incident.id && (
+                      {updatingIncident && selectedIncidentId === incident.id && (
                         <div className="loading-spinner">
                           <Spinner></Spinner>
                         </div>
@@ -94,12 +106,15 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
                         id={`popover-${incident.id}`}
                         type="button"
                         color="danger"
-                        disabled={!!updatingIncidentId}
+                        disabled={updatingIncident}
+                        onClick={() => onOpenPopover(incident.id)}
                         data-testid={testId.sendAlertButton}
                       >
                         Send Alert
                       </Button>
-                      <UncontrolledPopover
+                      <Popover
+                        isOpen={popover && selectedIncidentId === incident.id}
+                        toggle={togglePopover}
                         target={`popover-${incident.id}`}
                         data-testid={testId.incidentPopoverContainer}
                       >
@@ -118,11 +133,11 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
                             ))}
                           </ListGroup>
                         </PopoverBody>
-                      </UncontrolledPopover>
+                      </Popover>
                       <Button
                         type="button"
                         color="outline-dark"
-                        disabled={!!updatingIncidentId}
+                        disabled={updatingIncident}
                         data-testid={testId.ignoreAlertButton}
                         onClick={() => onIgnoreAlert_(incident)}
                       >

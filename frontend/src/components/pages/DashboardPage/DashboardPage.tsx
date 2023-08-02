@@ -45,7 +45,7 @@ const DashboardPage: React.FC = () => {
 
   const onIgnoreAlert = async (incident: Incident) => {
     await ignoreAlert(incident.id);
-    incident.ignore = true;
+    incident.ignored = true;
   };
 
   const onChangePremise = (e) => {
@@ -70,11 +70,13 @@ const DashboardPage: React.FC = () => {
             onChange={onChangePremise}
           >
             <option defaultChecked={true}>Select Premise</option>
-            {premises.map((premise: Premise) => (
-              <option key={premise.id} value={premise.id}>
-                {premise.name}
-              </option>
-            ))}
+            {premises
+              .sort((left, right) => (left.name < right.name ? -1 : 1))
+              .map((premise: Premise) => (
+                <option key={premise.id} value={premise.id}>
+                  {premise.name}
+                </option>
+              ))}
           </Input>
           {isFetchingData && (
             <div className="loading-spinner">
