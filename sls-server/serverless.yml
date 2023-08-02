@@ -93,6 +93,7 @@ functions:
       - http:
           path: /guards
           method: get
+          cors: true
   createIncident:
     handler: com.serverless.CreateIncidentHandler
     events:
@@ -123,6 +124,7 @@ functions:
       - http:
           path: /incidents/{incidentId}
           method: put
+          cors: true
   updateGuard:
     handler: com.serverless.UpdateGuardTokenHandler
     events:
