@@ -10,7 +10,7 @@ const loginMock = vi.hoisted(() => vi.fn());
 const getGuardsMock = vi.hoisted(() => vi.fn());
 const getPremisesMock = vi.hoisted(() => vi.fn());
 const sendAlertMock = vi.hoisted(() => vi.fn());
-const ignoreAlertMock = vi.hoisted(() => vi.fn());
+const ignoredAlertMock = vi.hoisted(() => vi.fn());
 
 vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(),
@@ -25,7 +25,7 @@ vi.mock('../../../api/premises.api', () => ({
 }));
 vi.mock('../../../api/incidents.api', () => ({
   sendAlert: sendAlertMock,
-  ignoreAlert: ignoreAlertMock,
+  ignoredAlert: ignoredAlertMock,
 }));
 
 const writeToSessionStorageMock = vi.hoisted(() => vi.fn());
@@ -58,26 +58,26 @@ describe(DashboardPage.name, () => {
     incidents: [
       {
         id: '63c0cf4cbb90b139dd6f6805',
-        message: 'Stranger detected',
-        ignore: false,
+        name: 'Stranger detected',
+        ignored: false,
         dateCreated: '2023-07-26T11:13:42.908Z',
       },
       {
         id: '63c0cf4cbb90b139dd6f6905',
-        message: 'Stranger 2 detected',
-        ignore: false,
+        name: 'Stranger 2 detected',
+        ignored: false,
         dateCreated: '2023-07-27T11:13:42.908Z',
       },
       {
         id: '63c0cf4cbb90b139dd6f7805',
-        message: 'Dog detected',
-        ignore: true,
+        name: 'Dog detected',
+        ignored: true,
         dateCreated: '2023-05-15T11:12:42.908Z',
       },
       {
         id: '63c0cf4cbb90b139dd6f8805',
-        message: 'Cat detected',
-        ignore: false,
+        name: 'Cat detected',
+        ignored: false,
         guardId: '63c0cf4cbb90b139dd6f6804',
         dateCreated: '2023-05-15T11:13:42.908Z',
       },

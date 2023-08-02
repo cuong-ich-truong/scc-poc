@@ -1,5 +1,5 @@
 name: Frontend Check
-run-name: ${{ github.actor }} is building and testing frontend app 🚀
+run-name: ${{ github.actor }} is building and testing frontend app 🧪 
 on:
   pull_request:
     paths:
