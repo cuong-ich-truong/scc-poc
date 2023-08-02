@@ -29,10 +29,16 @@ custom:
 provider:
   name: aws
   runtime: java8
-  stage: ${opt:stage, 'uat'}
+  stage: ${opt:stage, 'dev'}
   region: us-east-1
   iamRoleStatements:
-    - Effect: Allow
+    - Effect: 'Allow'
+      Action:
+        - s3:*
+      Resource:
+        - arn:aws:s3:::${self:custom.s3BucketName}
+        - arn:aws:s3:::${self:custom.s3BucketName}/*
+    - Effect: 'Allow'
       Action:
         - dynamodb:Query
         - dynamodb:Scan
@@ -40,19 +46,17 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-        - s3:*
       Resource:
         - { "Fn::GetAtt": ["GuardDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["CameraDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["PremiseDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["IncidentDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["NoteDynamoDBTable", "Arn" ] }
-    - Effect: Allow
+    - Effect: 'Allow'
       Action:
         - sns:*
       Resource:
         - arn:aws:sns:us-east-1:052698802670:app/GCM/scc-poc-sns
-        - { "Fn::GetAtt": ["S3Bucket", "Arn"]}
   environment:
     GUARD_TABLE_NAME: ${self:custom.guardTableName}
     CAMERA_TABLE_NAME: ${self:custom.cameraTableName}
@@ -74,6 +78,7 @@ functions:
           method: get
   getIncidentById:
     handler: com.serverless.GetIncidentByIdHandler
+    timeout: 20
     events:
       - http:
           path: /incidents/{incidentId}
@@ -120,6 +125,7 @@ functions:
           method: get
   createNote:
     handler: com.serverless.CreateNoteHandler
+    timeout: 30
     events:
       - http:
           path: /incidents/{incidentId}/notes

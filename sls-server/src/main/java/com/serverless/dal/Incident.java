@@ -34,6 +34,7 @@ public class Incident {
     private Boolean ignored;
     private String guardId;
     private String cameraId;
+    private String instruction;
     private String dateCreated;
 
     private List<Note> notes = new ArrayList<>();
@@ -92,6 +93,14 @@ public class Incident {
         return this.dateCreated;
     }
 
+    public String getInstruction() {
+        return instruction;
+    }
+
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
+    }
+
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
@@ -125,25 +134,11 @@ public class Incident {
     }
 
     public Incident get(String id) throws IOException {
-        Incident record = null;
-
-        HashMap<String, AttributeValue> av = new HashMap<String, AttributeValue>();
-        av.put(":v1", new AttributeValue().withS(id));
-
-        DynamoDBQueryExpression<Incident> queryExp = new DynamoDBQueryExpression<Incident>()
-            .withKeyConditionExpression("id = :v1")
-            .withExpressionAttributeValues(av);
-
-        PaginatedQueryList<Incident> result = this.mapper.query(Incident.class, queryExp);
-        if (result.size() > 0) {
-            record = result.get(0);
-            record.setNotes(new Note().getNoteByIncidentId(record.getId()));
-            logger.info("Incidents - get(): record - " + record.toString());
-        } else {
-            logger.info("Incidents - get(): record - Not Found.");
-        }
-
-        return record;
+        Incident incident = mapper.load(Incident.class, id);
+        if (incident == null)
+            return null;
+        incident.setNotes(new Note().getNoteByIncidentId(incident.getId()));
+        return incident;
     }
 
     public Incident create(Incident incident) throws IOException {
