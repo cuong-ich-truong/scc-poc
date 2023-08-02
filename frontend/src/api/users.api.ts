@@ -1,6 +1,5 @@
 import { API_BASE_URL, get } from './api';
 import { User } from '../types/User';
-import { mockedGuardsResponse } from './mocks/mockdata/mocked-guards.response';
 
 export const login = async (username: string, password: string): Promise<User> => {
   // TODO: no need for login api in POC
@@ -13,5 +12,5 @@ export const login = async (username: string, password: string): Promise<User> =
 };
 
 export const getGuards = async (): Promise<User[]> => {
-  return mockedGuardsResponse;
+  return await get<User[]>(`${API_BASE_URL}/guards`);
 };
