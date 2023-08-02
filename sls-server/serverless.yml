@@ -7,6 +7,7 @@ custom:
   premiseTableName: 'java-premise-${self:provider.stage}'
   incidentTableName: 'java-incident-${self:provider.stage}'
   noteTableName: 'java-note-${self:provider.stage}'
+  s3BucketName: 's3-bucket-${self:provider.stage}'
   seed:
     guardsSeed:
       table: 'java-guard-${self:provider.stage}'
@@ -28,7 +29,7 @@ custom:
 provider:
   name: aws
   runtime: java8
-  stage: ${opt:stage, 'dev'}
+  stage: ${opt:stage, 'uat'}
   region: us-east-1
   iamRoleStatements:
     - Effect: Allow
@@ -39,6 +40,9 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        - s3:PutObject
+        - s3:GetObject
+        - s3:DeleteObject
       Resource:
         - { "Fn::GetAtt": ["GuardDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["CameraDynamoDBTable", "Arn" ] }
@@ -50,6 +54,7 @@ provider:
         - sns:*
       Resource:
         - arn:aws:sns:us-east-1:052698802670:app/GCM/scc-poc-sns
+        - { "Fn::GetAtt": ["S3Bucket", "Arn"]}
   environment:
     GUARD_TABLE_NAME: ${self:custom.guardTableName}
     CAMERA_TABLE_NAME: ${self:custom.cameraTableName}
@@ -57,6 +62,7 @@ provider:
     INCIDENT_TABLE_NAME: ${self:custom.incidentTableName}
     NOTE_TABLE_NAME: ${self:custom.noteTableName}
     SNS_PLATFORM_APPLICATION_ARN: arn:aws:sns:us-east-1:052698802670:app/GCM/scc-poc-sns
+    S3_BUCKET_NAME: ${self:custom.s3BucketName}
 
 package:
   artifact: 'target/${self:service}-${self:provider.stage}.jar'
@@ -107,6 +113,18 @@ functions:
           path: /incidents
           method: post
           cors: true
+  getNotesOfIncident:
+    handler: com.serverless.GetNotesOfIncidentHandler
+    events:
+      - http:
+          path: /incidents/{incidentId}/notes
+          method: get
+  createNote:
+    handler: com.serverless.CreateNoteHandler
+    events:
+      - http:
+          path: /incidents/{incidentId}/notes
+          method: post
   getNotes:
     handler: com.serverless.GetNotesHandler
     events:
@@ -119,12 +137,6 @@ functions:
       - http:
           path: /notes/{noteId}
           method: get
-  createNote:
-    handler: com.serverless.CreateNoteHandler
-    events:
-      - http:
-          path: /notes
-          method: post
   updateIncident:
     handler: com.serverless.UpdateIncidentHandler
     events:
@@ -151,6 +163,10 @@ plugins:
 
 resources:
   Resources:
+    S3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.s3BucketName}
     GuardDynamoDBTable:
       Type: AWS::DynamoDB::Table
       Properties:
