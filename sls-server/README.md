@@ -99,3 +99,13 @@ deploy with -s (stage) variable that we used
 1. Run `mvn package` or `mvn clean install` to build, run tests and generate coverage report
 
 2. Report location: `sls-server/target/site/jacoco/index.html`
+
+
+## Run DynamoDB Seed
+
+Please aware that the seeding will insert new records into table and not clear the existing data. If there is existing record with the same primary key, it will be replaced with seed data
+
+1. Prepare/Update seed data in sls-server/database-seed, each json file store data for a table
+2. Update the table names and seed file path in serverless.yml file: custom.seed.{seadName}
+3. Run `sls dynamodb:seed -s ${stage}`.
+Ex: `sls dynamodb:seed -s uat`

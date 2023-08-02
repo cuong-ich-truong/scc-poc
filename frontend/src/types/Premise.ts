@@ -13,7 +13,7 @@ export interface Camera {
 
 export interface Incident {
   id: string;
-  message: string;
+  name: string;
   ignore: boolean;
   guardId?: string;
   dateCreated: string;

@@ -4,25 +4,25 @@ import { hasActiveIncident, isIncidentActive } from './findActiveIncidents';
 describe('Find active incidents', () => {
   const activeIncident1: Incident = {
     id: '63c0cf4cbb90b139dd6f6805',
-    message: 'Stranger detected',
+    name: 'Stranger detected',
     ignore: false,
     dateCreated: '2023-07-26T11:13:42.908Z',
   };
   const activeIncident2: Incident = {
     id: '63c0cf4cbb90b139dd6f6905',
-    message: 'Stranger 2 detected',
+    name: 'Stranger 2 detected',
     ignore: false,
     dateCreated: '2023-07-27T11:13:42.908Z',
   };
   const ignoredIncident: Incident = {
     id: '63c0cf4cbb90b139dd6f7805',
-    message: 'Dog detected',
+    name: 'Dog detected',
     ignore: true,
     dateCreated: '2023-05-15T11:12:42.908Z',
   };
   const assignedIncident: Incident = {
     id: '63c0cf4cbb90b139dd6f8805',
-    message: 'Cat detected',
+    name: 'Cat detected',
     ignore: false,
     guardId: '63c0cf4cbb90b139dd6f6804',
     dateCreated: '2023-05-15T11:13:42.908Z',

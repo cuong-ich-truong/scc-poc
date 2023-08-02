@@ -151,6 +151,7 @@ public class Incident {
         logger.info("Incident - load(): record - " + incident.toString());
 
         if (StringUtils.isNotBlank(updateIncidentRequest.guardId) && StringUtils.isBlank(incident.getGuardId())) {
+            // TODO: send message to firebase to push notification to mobile
             incident.setGuardId(updateIncidentRequest.guardId);
         }
         if (BooleanUtils.isTrue(updateIncidentRequest.ignore)) {
