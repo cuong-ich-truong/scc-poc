@@ -1,7 +1,5 @@
 package com.serverless.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class CreateNoteRequestBody {
 
     private String description;

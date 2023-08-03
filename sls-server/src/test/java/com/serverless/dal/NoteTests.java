@@ -2,6 +2,7 @@ package com.serverless.dal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
+import com.serverless.dto.CreateNoteRequestBody;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +11,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -55,10 +58,14 @@ public class NoteTests {
     public void createNote() throws IOException {
 
         Note note = new Note();
-        note.setId("not_1");
         note.mapper = dynamoDBMapper;
 
-        note.create(note);
-        verify(dynamoDBMapper).save(Mockito.eq(note));
+        CreateNoteRequestBody createNoteRequestBody = new CreateNoteRequestBody();
+        createNoteRequestBody.setDescription("test description");
+        String incidentId = "inc_1";
+
+        note.create(incidentId, createNoteRequestBody);
+        verify(dynamoDBMapper).save(argThat((Note note_) -> note_.getIncidentId().equals(incidentId)));
+        verify(dynamoDBMapper).save(argThat((Note note_) -> note_.getDescription().equals(createNoteRequestBody.getDescription())));
     }
 }
