@@ -45,12 +45,18 @@ provider:
         - { "Fn::GetAtt": ["PremiseDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["IncidentDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["NoteDynamoDBTable", "Arn" ] }
+    - Effect: Allow
+      Action:
+        - sns:*
+      Resource:
+        - arn:aws:sns:us-east-1:052698802670:app/GCM/scc-poc-sns
   environment:
     GUARD_TABLE_NAME: ${self:custom.guardTableName}
     CAMERA_TABLE_NAME: ${self:custom.cameraTableName}
     PREMISE_TABLE_NAME: ${self:custom.premiseTableName}
     INCIDENT_TABLE_NAME: ${self:custom.incidentTableName}
     NOTE_TABLE_NAME: ${self:custom.noteTableName}
+    SNS_PLATFORM_APPLICATION_ARN: arn:aws:sns:us-east-1:052698802670:app/GCM/scc-poc-sns
 
 package:
   artifact: 'target/${self:service}-${self:provider.stage}.jar'
@@ -139,7 +145,6 @@ functions:
           path: /incidents/new
           method: get
           cors: true
-
 plugins:
   - serverless-offline
   - serverless-dynamodb-seed

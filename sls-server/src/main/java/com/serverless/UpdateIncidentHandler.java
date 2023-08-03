@@ -4,6 +4,8 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.serverless.dal.Incident;
 import com.serverless.dto.UpdateIncidentRequest;
+import com.serverless.service.PushNotificationService;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,6 +29,11 @@ public class UpdateIncidentHandler implements RequestHandler<Map<String, Object>
 
             // update incident
             Incident updatedIncident = new Incident().update(getPathVariable(input, "incidentId"), getRequestBody(input, UpdateIncidentRequest.class));
+
+            if (!updatedIncident.isIgnored() && updatedIncident.getGuardId() != null) {
+                // send notification to guard
+                new PushNotificationService().sendAlert(updatedIncident);
+            }
 
             // send the response back
             return ApiGatewayResponse.builder()
