@@ -23,15 +23,11 @@ public class UpdateIncidentHandler implements RequestHandler<Map<String, Object>
     public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
         try {
 
-            for (String key : input.keySet()) {
-                logger.info(String.format("Key: %s | value: %s", key, input.get(key)));
-            }
-
             // update incident
             Incident updatedIncident = new Incident().update(getPathVariable(input, "incidentId"), getRequestBody(input, UpdateIncidentRequest.class));
 
-            if (!updatedIncident.isIgnored() && updatedIncident.getGuardId() != null) {
-                // send notification to guard
+            // send notification to guard
+            if (!updatedIncident.isIgnored() && updatedIncident.isAssignedToGuard()) {
                 new PushNotificationService().sendAlert(updatedIncident);
             }
 

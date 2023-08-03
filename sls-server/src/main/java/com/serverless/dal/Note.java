@@ -183,10 +183,10 @@ public class Note {
         return notes;
     }
 
-    public Note create(String incidentId, CreateNoteRequestBody createNoteRequestBody) throws IOException {
+    public Note create(String incidentId, String description) throws IOException {
         Note newNote = new Note();
         newNote.setIncidentId(incidentId);
-        newNote.setDescription(createNoteRequestBody.getDescription());
+        newNote.setDescription(description);
         this.mapper.save(newNote);
         return newNote;
     }
