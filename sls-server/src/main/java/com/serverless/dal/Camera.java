@@ -124,20 +124,4 @@ public class Camera {
         return record;
     }
 
-    public Camera updateName(String id, String name) throws IOException {
-
-        Camera camera = this.mapper.load(Camera.class, id);
-        logger.info("Camera - load(): record - " + camera.toString());
-
-        camera.setName(name);
-        save(camera);
-        
-        return camera;
-    }
-
-    public void save(Camera record) {
-        logger.info("Camera - save(): " + record.toString());
-        this.mapper.save(record);
-    }
-
 }

@@ -76,7 +76,7 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
       >
         {hasActiveIncident(incidents) && (
           <>
-            <CgDanger />{' '}
+            <CgDanger data-testid={testId.hasActiveIncidentIcon} />{' '}
           </>
         )}
         <BsThreeDots size={20} />

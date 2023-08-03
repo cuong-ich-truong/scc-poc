@@ -23,7 +23,7 @@ public class Note {
 
     private static DynamoDBAdapter db_adapter;
     private final AmazonDynamoDB client;
-    private final DynamoDBMapper mapper;
+    protected DynamoDBMapper mapper;
 
     private Logger logger = LogManager.getLogger(this.getClass());
 
@@ -71,9 +71,7 @@ public class Note {
     public List<Note> list() throws IOException {
         DynamoDBScanExpression scanExp = new DynamoDBScanExpression();
         List<Note> results = this.mapper.scan(Note.class, scanExp);
-        for (Note p : results) {
-            logger.info("Notes - list(): " + p.toString());
-        }
+        results.forEach(note -> logger.info("Notes - list(): " + note.toString()));
         return results;
     }
 

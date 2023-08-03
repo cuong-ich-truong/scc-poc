@@ -19,7 +19,7 @@ public class Guard {
 
     private static DynamoDBAdapter db_adapter;
     private final AmazonDynamoDB client;
-    private final DynamoDBMapper mapper;
+    protected DynamoDBMapper mapper;
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -82,9 +82,7 @@ public class Guard {
     public List<Guard> list() throws IOException {
         DynamoDBScanExpression scanExp = new DynamoDBScanExpression();
         List<Guard> results = this.mapper.scan(Guard.class, scanExp);
-        for (Guard p : results) {
-            logger.info("Guard - list(): " + p.toString());
-        }
+        results.forEach(guard -> logger.info("Guards - list(): " + guard.toString()));
         return results;
     }
 
