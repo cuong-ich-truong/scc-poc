@@ -6,7 +6,7 @@ import 'package:scc_poc_app/screens/incidents_list/incidents_list_screen.dart';
 import '../../firebase_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:scc_poc_app/services/scc_send_token_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}): super(key: key);
@@ -17,6 +17,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class LoginScreenState extends ConsumerState<LoginScreen> {
 
+  String fcmToken = "";
   Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
     // a terminated state.
@@ -36,9 +37,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       sound: true,
     );
 
-    final fcmToken = await FirebaseMessaging.instance.getToken();
+    fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
-    print("FCMToken $fcmToken");
 
     // Get any messages which caused the application to open from
     // a terminated state.
@@ -60,45 +60,39 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void _handleMessage(RemoteMessage message) {
-     // TODO: Implement logic of getting incident id from push notification message later
-    // _goToDetailScreen(context, message.data['incident_id']);
-    _goToDetailScreen(context, 'fb267025-1c26-4a0b-89e5-2a885a1cead2');
+     String? incidentId = message.data['incident_id'];
+
+     if (incidentId != null) {
+       _goToDetailScreen(incidentId);
+     }
   }
 
   @override
   void initState() {
     super.initState();
     setupInteractedMessage();
-    // "ref" can be used in all life-cycles of a StatefulWidget.
   }
 
   void _goToIncidentsListScreen(BuildContext context, String guardId) {
-  Navigator.push(
-        context, 
-        MaterialPageRoute(builder: (context) => IncidentsListScreen(guardId: guardId))
-      );
+    final notifier = ref.watch($sendTokenProvider.notifier);
+    notifier.sendToken(guardId, fcmToken);
+    Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (context) => IncidentsListScreen(guardId: guardId))
+    );
   }
 
-  void _goToDetailScreen(BuildContext context, String incidentId) {
+  void _goToDetailScreen(String incidentId) {
     Navigator.push(
         context, 
-        MaterialPageRoute(builder: (context) => IncidentDetailsScreen(incidentId: incidentId))
+        MaterialPageRoute(builder: (context) => IncidentDetailScreen(incidentId: incidentId))
       );
   }
 
   @override
   Widget build(BuildContext context) {
-    // final incidents = ref.watch($incidentsProvider).incidents;
-    // final isLoading = ref.watch($incidentsProvider).isLoading;
-    // final notifier = ref.watch($incidentsProvider.notifier);
-
-    // useEffect(() {
-    //   Future(() {
-    //     notifier.getIncidents('123');
-    //   });
-    //   return null;
-    // }, []);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme:  ThemeData(
          primaryColor: const Color.fromRGBO(24, 24, 24, 1.0),
         canvasColor: const Color.fromRGBO(46, 49, 49, 1.0),
@@ -107,16 +101,17 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     home:  Scaffold(
       appBar: AppBar(
         title:  const Text('Login by choosing a guard'),
+        automaticallyImplyLeading: true,
       ),
     body: ListView(children: [
       ElevatedButton(onPressed: () {
-        _goToIncidentsListScreen(context, "123");
+        _goToIncidentsListScreen(context, "gua_1");
       }, child: const Text('CHRIS')),
       ElevatedButton(onPressed: () {
-        _goToIncidentsListScreen(context, "123");
+        _goToIncidentsListScreen(context, "gua_1");
       }, child: const Text('ALEX')),
       ElevatedButton(onPressed: () {
-        _goToIncidentsListScreen(context, "123");
+        _goToIncidentsListScreen(context, "gua_1");
       }, child: const Text('JOHN')),
       ],)
     ));
