@@ -28,7 +28,7 @@ public class Premise {
 
     private static DynamoDBAdapter db_adapter;
     private final AmazonDynamoDB client;
-    private final DynamoDBMapper mapper;
+    protected DynamoDBMapper mapper;
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -81,25 +81,18 @@ public class Premise {
     }
 
     // methods
-    public Boolean ifTableExists() {
-        return this.client.describeTable(TABLE_NAME).getTable().getTableStatus().equals("ACTIVE");
-    }
 
     public List<Premise> list() throws IOException {
         DynamoDBScanExpression scanExp = new DynamoDBScanExpression();
         List<Premise> results = this.mapper.scan(Premise.class, scanExp);
-        for (Premise p : results) {
-            logger.info("Premises - list(): " + p.toString());
-        }
+        results.forEach(premise -> logger.info("Premises - list(): " + premise.toString()));
         return results;
     }
 
     public List<Premise> listWithRelations() throws IOException {
         DynamoDBScanExpression scanPremisesExp = new DynamoDBScanExpression();
         List<Premise> premises = this.mapper.scan(Premise.class, scanPremisesExp);
-        for (Premise p : premises) {
-            logger.info("Premises - list(): " + p.toString());
-        }
+        premises.forEach(premise -> logger.info("Premises - list(): " + premise.toString()));
         Map<String, Premise> premiseMap = premises.stream().collect(Collectors.toMap(Premise::getId, Function.identity()));
 
         List<Camera> cameras = new Camera().list();
