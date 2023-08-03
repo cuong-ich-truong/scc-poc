@@ -16,5 +16,6 @@ export interface Incident {
   name: string;
   ignored: boolean;
   guardId?: string;
+  cameraId: string;
   dateCreated: string;
 }
