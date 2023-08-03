@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'scc_incident_details_provider.dart';
+part of 'scc_incident_detail_provider.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,29 +15,28 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$IncidentDetailsState {
+mixin _$IncidentDetailState {
   Incident get incident => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $IncidentDetailsStateCopyWith<IncidentDetailsState> get copyWith =>
+  $IncidentDetailStateCopyWith<IncidentDetailState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $IncidentDetailsStateCopyWith<$Res> {
-  factory $IncidentDetailsStateCopyWith(IncidentDetailsState value,
-          $Res Function(IncidentDetailsState) then) =
-      _$IncidentDetailsStateCopyWithImpl<$Res, IncidentDetailsState>;
+abstract class $IncidentDetailStateCopyWith<$Res> {
+  factory $IncidentDetailStateCopyWith(
+          IncidentDetailState value, $Res Function(IncidentDetailState) then) =
+      _$IncidentDetailStateCopyWithImpl<$Res, IncidentDetailState>;
   @useResult
   $Res call({Incident incident, bool isLoading});
 }
 
 /// @nodoc
-class _$IncidentDetailsStateCopyWithImpl<$Res,
-        $Val extends IncidentDetailsState>
-    implements $IncidentDetailsStateCopyWith<$Res> {
-  _$IncidentDetailsStateCopyWithImpl(this._value, this._then);
+class _$IncidentDetailStateCopyWithImpl<$Res, $Val extends IncidentDetailState>
+    implements $IncidentDetailStateCopyWith<$Res> {
+  _$IncidentDetailStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -64,22 +63,22 @@ class _$IncidentDetailsStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_IncidentDetailsStateCopyWith<$Res>
-    implements $IncidentDetailsStateCopyWith<$Res> {
-  factory _$$_IncidentDetailsStateCopyWith(_$_IncidentDetailsState value,
-          $Res Function(_$_IncidentDetailsState) then) =
-      __$$_IncidentDetailsStateCopyWithImpl<$Res>;
+abstract class _$$_IncidentDetailStateCopyWith<$Res>
+    implements $IncidentDetailStateCopyWith<$Res> {
+  factory _$$_IncidentDetailStateCopyWith(_$_IncidentDetailState value,
+          $Res Function(_$_IncidentDetailState) then) =
+      __$$_IncidentDetailStateCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Incident incident, bool isLoading});
 }
 
 /// @nodoc
-class __$$_IncidentDetailsStateCopyWithImpl<$Res>
-    extends _$IncidentDetailsStateCopyWithImpl<$Res, _$_IncidentDetailsState>
-    implements _$$_IncidentDetailsStateCopyWith<$Res> {
-  __$$_IncidentDetailsStateCopyWithImpl(_$_IncidentDetailsState _value,
-      $Res Function(_$_IncidentDetailsState) _then)
+class __$$_IncidentDetailStateCopyWithImpl<$Res>
+    extends _$IncidentDetailStateCopyWithImpl<$Res, _$_IncidentDetailState>
+    implements _$$_IncidentDetailStateCopyWith<$Res> {
+  __$$_IncidentDetailStateCopyWithImpl(_$_IncidentDetailState _value,
+      $Res Function(_$_IncidentDetailState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -88,7 +87,7 @@ class __$$_IncidentDetailsStateCopyWithImpl<$Res>
     Object? incident = null,
     Object? isLoading = null,
   }) {
-    return _then(_$_IncidentDetailsState(
+    return _then(_$_IncidentDetailState(
       incident: null == incident
           ? _value.incident
           : incident // ignore: cast_nullable_to_non_nullable
@@ -103,8 +102,8 @@ class __$$_IncidentDetailsStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_IncidentDetailsState implements _IncidentDetailsState {
-  _$_IncidentDetailsState(
+class _$_IncidentDetailState implements _IncidentDetailState {
+  _$_IncidentDetailState(
       {this.incident = const Incident(), this.isLoading = true});
 
   @override
@@ -116,14 +115,14 @@ class _$_IncidentDetailsState implements _IncidentDetailsState {
 
   @override
   String toString() {
-    return 'IncidentDetailsState(incident: $incident, isLoading: $isLoading)';
+    return 'IncidentDetailState(incident: $incident, isLoading: $isLoading)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_IncidentDetailsState &&
+            other is _$_IncidentDetailState &&
             (identical(other.incident, incident) ||
                 other.incident == incident) &&
             (identical(other.isLoading, isLoading) ||
@@ -136,15 +135,14 @@ class _$_IncidentDetailsState implements _IncidentDetailsState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_IncidentDetailsStateCopyWith<_$_IncidentDetailsState> get copyWith =>
-      __$$_IncidentDetailsStateCopyWithImpl<_$_IncidentDetailsState>(
+  _$$_IncidentDetailStateCopyWith<_$_IncidentDetailState> get copyWith =>
+      __$$_IncidentDetailStateCopyWithImpl<_$_IncidentDetailState>(
           this, _$identity);
 }
 
-abstract class _IncidentDetailsState implements IncidentDetailsState {
-  factory _IncidentDetailsState(
-      {final Incident incident,
-      final bool isLoading}) = _$_IncidentDetailsState;
+abstract class _IncidentDetailState implements IncidentDetailState {
+  factory _IncidentDetailState(
+      {final Incident incident, final bool isLoading}) = _$_IncidentDetailState;
 
   @override
   Incident get incident;
@@ -152,6 +150,6 @@ abstract class _IncidentDetailsState implements IncidentDetailsState {
   bool get isLoading;
   @override
   @JsonKey(ignore: true)
-  _$$_IncidentDetailsStateCopyWith<_$_IncidentDetailsState> get copyWith =>
+  _$$_IncidentDetailStateCopyWith<_$_IncidentDetailState> get copyWith =>
       throw _privateConstructorUsedError;
 }

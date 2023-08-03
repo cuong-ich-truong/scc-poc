@@ -11,6 +11,10 @@ Incident _$IncidentFromJson(Map<String, dynamic> json) => Incident(
       name: json['name'] as String?,
       guardId: json['guardId'] as String?,
       cameraId: json['cameraId'] as String?,
+      instruction: json['instruction'] as String?,
+      notes: json['notes'] == null
+          ? null
+          : Notes.fromJson(json['notes'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$IncidentToJson(Incident instance) => <String, dynamic>{
@@ -18,4 +22,6 @@ Map<String, dynamic> _$IncidentToJson(Incident instance) => <String, dynamic>{
       'name': instance.name,
       'guardId': instance.guardId,
       'cameraId': instance.cameraId,
+      'instruction': instance.instruction,
+      'notes': instance.notes,
     };

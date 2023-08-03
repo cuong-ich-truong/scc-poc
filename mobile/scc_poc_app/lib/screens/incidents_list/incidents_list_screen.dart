@@ -9,14 +9,6 @@ import 'incident_item.dart';
 class IncidentsListScreen extends HookConsumerWidget {
   const IncidentsListScreen({super.key, required this.guardId});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
   final String guardId;
 
   @override
@@ -32,27 +24,21 @@ class IncidentsListScreen extends HookConsumerWidget {
       return null;
     }, []);
     
-    return MaterialApp(
-      theme:  ThemeData(
-         primaryColor: const Color.fromRGBO(24, 24, 24, 1.0),
-        canvasColor: const Color.fromRGBO(46, 49, 49, 1.0),
-        brightness: Brightness.dark,
-      ),
-    home:  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title:  const Text('Incidents List'),
+        automaticallyImplyLeading: true,
       ),
-    body: isLoading ? const Center(
-              child: CircularProgressIndicator(),) 
-                    : (incidents.isNotEmpty ? _displayIncidentsList(context, incidents) : const Text('NO INCIDENT')
-      )),
-    );
+      body: isLoading ? const Center(
+                child: CircularProgressIndicator(),) 
+                      : (incidents.isNotEmpty ? _displayIncidentsList(context, incidents) : const Text('NO INCIDENT')
+      ));
   }
 
   void _goToDetailScreen(BuildContext context, String incidentName, String incidentId) {
     Navigator.push(
         context, 
-        MaterialPageRoute(builder: (context) => IncidentDetailsScreen(incidentId: incidentId))
+        MaterialPageRoute(builder: (context) => IncidentDetailScreen(incidentId: incidentId))
       );
   }
 
