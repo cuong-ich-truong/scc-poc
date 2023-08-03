@@ -1,23 +1,37 @@
 package com.serverless.dto;
 
+import org.json.JSONObject;
 import java.util.Map;
 import java.util.HashMap;
 
-public class SendRemoteMessage {
+public class SendRemoteMessage implements java.io.Serializable {
 
-  private String body;
-  private String title;
-  private Map<String, String> data = new HashMap<String, String>();
+  public String title;
+  public String body;
+  Map<String, String> data = new HashMap<String, String>();
 
   public SendRemoteMessage(String title, String body, String incidentId) {
     this.title = title;
-    this.body = "New incident detected at your premises.";
+    this.body = body;
     this.data.put("incident_id", incidentId);
   }
 
-  public String toString() {
-    String json = "{ \"notification\": { \"body\": \"" + this.body + "\", \"title\": \"" + this.title
-        + "\" }, \"data\": { \"incident_id\": \"" + this.data.get("incident_id") + "\" } }";
-    return "{ \"GCM\": \"" + json + "\" }";
+  public String toJsonMessage() {
+    // format: {"GCM":"{ \"notification\": { \"body\": \"test body\", \"title\":\"TitleTest 2\" }, \"data\": { \"incidentId\": \"12334345\"} }"}
+    JSONObject incidentObj = new JSONObject();  
+    incidentObj.put("incident_id", this.data.get("incident_id"));
+
+    JSONObject notification = new JSONObject();
+    notification.put("body", this.body);
+    notification.put("title", "");
+
+    JSONObject gcm = new JSONObject();
+    gcm.put("notification", notification);
+    gcm.put("data", incidentObj);
+
+    JSONObject obj = new JSONObject();
+    obj.put("GCM", gcm.toString());
+
+    return obj.toString();
   }
 }
