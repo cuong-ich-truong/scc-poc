@@ -12,6 +12,7 @@ import { Incident, Premise } from '../../../types/Premise';
 import IncidentsListPopup from '../../components/IncidentsListPopup/IncidentsListPopup';
 import CCTVPlayer from '../../components/CCTVPlayer/CCTVPlayer';
 import { testId } from '../../../testing/testId';
+import { getNewIncidentsAndNotify } from './getNewIncidentsAndNotify';
 
 const DashboardPage: React.FC = () => {
   let { state } = useLocation();
@@ -20,6 +21,7 @@ const DashboardPage: React.FC = () => {
   const [selectedPremise, setSelectedPremise] = useState<Premise>();
   const [guards, setGuards] = useState<User[]>([]);
   const [isFetchingData, setIsFetchingData] = useState(false);
+  const MINUTE_IN_MILLISECONDS = 60000;
 
   useEffect(() => {
     login('username', 'password').then((user_) => {
@@ -37,6 +39,14 @@ const DashboardPage: React.FC = () => {
       });
     });
   }, []);
+
+  useEffect(() => {
+    const getNewIncidentsInterval = setInterval(
+      () => getNewIncidentsAndNotify(premises, setPremises, selectedPremise, setSelectedPremise),
+      MINUTE_IN_MILLISECONDS
+    );
+    return () => clearInterval(getNewIncidentsInterval);
+  }, [premises, selectedPremise]);
 
   const onSendAlert = async (incident: Incident, guardId: string) => {
     await sendAlert(incident.id, guardId);

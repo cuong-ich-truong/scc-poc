@@ -132,6 +132,13 @@ functions:
       - http:
           path: /guards/{guardId}/{token}
           method: put
+  getNewIncidents:
+    handler: com.serverless.GetNewIncidentsHandler
+    events:
+      - http:
+          path: /incidents/new
+          method: get
+          cors: true
 
 plugins:
   - serverless-offline

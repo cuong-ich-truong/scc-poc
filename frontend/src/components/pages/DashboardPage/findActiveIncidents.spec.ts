@@ -7,18 +7,21 @@ describe('Find active incidents', () => {
     name: 'Stranger detected',
     ignored: false,
     dateCreated: '2023-07-26T11:13:42.908Z',
+    cameraId: 'cam_1',
   };
   const activeIncident2: Incident = {
     id: '63c0cf4cbb90b139dd6f6905',
     name: 'Stranger 2 detected',
     ignored: false,
     dateCreated: '2023-07-27T11:13:42.908Z',
+    cameraId: 'cam_1',
   };
   const ignoredIncident: Incident = {
     id: '63c0cf4cbb90b139dd6f7805',
     name: 'Dog detected',
     ignored: true,
     dateCreated: '2023-05-15T11:12:42.908Z',
+    cameraId: 'cam_1',
   };
   const assignedIncident: Incident = {
     id: '63c0cf4cbb90b139dd6f8805',
@@ -26,6 +29,7 @@ describe('Find active incidents', () => {
     ignored: false,
     guardId: '63c0cf4cbb90b139dd6f6804',
     dateCreated: '2023-05-15T11:13:42.908Z',
+    cameraId: 'cam_1',
   };
 
   describe('hasActiveIncident', () => {

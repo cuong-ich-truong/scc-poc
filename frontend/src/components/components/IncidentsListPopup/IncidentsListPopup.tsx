@@ -39,7 +39,7 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
     if (cctv.incidents) {
       setIncidents(cctv.incidents);
     }
-  }, []);
+  }, [cctv.incidents, incidents]);
 
   const onOpenPopover = (incidentId: string) => {
     setSelectedIncidentId(incidentId);
@@ -84,7 +84,7 @@ const IncidentsListPopup: React.FC<Props> = ({ cctv, guards, onSendAlert, onIgno
       <Modal isOpen={modal} toggle={toggleModal} data-testid={testId.alertPopup}>
         <ModalHeader toggle={toggleModal}>{cctv.name} - Alerts List</ModalHeader>
         <ModalBody>
-          <ListGroup flush>
+          <ListGroup flush className="incidents-container">
             {incidents.length < 1 && <p className="m-3">There are no alerts from this camera</p>}
             {incidents
               .sort((left, right) => (left.dateCreated < right.dateCreated ? 1 : -1))
