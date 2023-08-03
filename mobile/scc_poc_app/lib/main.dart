@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scc_poc_app/screens/login/login_screen.dart';
+import 'package:scc_poc_app/utils/service_locator.dart';
 
 void main() {
+  setUpServiceLocator();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -14,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Login',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
