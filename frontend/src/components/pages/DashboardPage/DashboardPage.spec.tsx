@@ -55,24 +55,28 @@ describe(DashboardPage.name, () => {
     id: '63c0cf4cbb90b139dd6f6804',
     streamUrl: 'https://s2.livecam-pro.live/cam056/tracks-v1/mono.m3u8',
     name: 'Camera 1',
+    premiseId: '1',
     incidents: [
       {
         id: '63c0cf4cbb90b139dd6f6805',
         name: 'Stranger detected',
         ignored: false,
         dateCreated: '2023-07-26T11:13:42.908Z',
+        cameraId: '63c0cf4cbb90b139dd6f6804',
       },
       {
         id: '63c0cf4cbb90b139dd6f6905',
         name: 'Stranger 2 detected',
         ignored: false,
         dateCreated: '2023-07-27T11:13:42.908Z',
+        cameraId: '63c0cf4cbb90b139dd6f6804',
       },
       {
         id: '63c0cf4cbb90b139dd6f7805',
         name: 'Dog detected',
         ignored: true,
         dateCreated: '2023-05-15T11:12:42.908Z',
+        cameraId: '63c0cf4cbb90b139dd6f6804',
       },
       {
         id: '63c0cf4cbb90b139dd6f8805',
@@ -80,6 +84,7 @@ describe(DashboardPage.name, () => {
         ignored: false,
         guardId: '63c0cf4cbb90b139dd6f6804',
         dateCreated: '2023-05-15T11:13:42.908Z',
+        cameraId: '63c0cf4cbb90b139dd6f6804',
       },
     ],
   };
