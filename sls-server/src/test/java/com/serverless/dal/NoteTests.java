@@ -58,7 +58,7 @@ public class NoteTests {
         note.setId("not_1");
         note.mapper = dynamoDBMapper;
 
-        note.create(note);
+        note.create("inc_1", "desc_1");
         verify(dynamoDBMapper).save(Mockito.eq(note));
     }
 }

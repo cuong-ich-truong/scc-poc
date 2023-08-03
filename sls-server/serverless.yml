@@ -7,7 +7,8 @@ custom:
   premiseTableName: 'java-premise-${self:provider.stage}'
   incidentTableName: 'java-incident-${self:provider.stage}'
   noteTableName: 'java-note-${self:provider.stage}'
-  s3BucketName: 's3-bucket-${self:provider.stage}'
+  s3BucketName: 'ssc-s3-bucket-${self:provider.stage}'
+  alertQueueName: 'ssc-alert-queue-${self:provider.stage}'
   seed:
     guardsSeed:
       table: 'java-guard-${self:provider.stage}'
@@ -62,7 +63,7 @@ provider:
       Action:
         - sqs:*
       Resource:
-        - arn:aws:sqs:us-east-1:052698802670:scc-poc-sqs
+        - { "Fn::GetAtt": ["AlertQueue", "Arn" ] }
   environment:
     GUARD_TABLE_NAME: ${self:custom.guardTableName}
     CAMERA_TABLE_NAME: ${self:custom.cameraTableName}
@@ -71,6 +72,7 @@ provider:
     NOTE_TABLE_NAME: ${self:custom.noteTableName}
     SNS_PLATFORM_APPLICATION_ARN: arn:aws:sns:us-east-1:052698802670:app/GCM/scc-poc-sns
     S3_BUCKET_NAME: ${self:custom.s3BucketName}
+    SQS_ALERTS_QUEUE_NAME: ${self:custom.alertQueueName}
 
 package:
   artifact: 'target/${self:service}-${self:provider.stage}.jar'
@@ -179,7 +181,7 @@ functions:
     handler: com.serverless.alert.ProcessAlertMessageHandler
     events:
       - sqs:
-          arn: arn:aws:sqs:us-east-1:052698802670:scc-poc-sqs
+          arn: { "Fn::GetAtt": ["AlertQueue", "Arn" ] }
           batchSize: 1
 
 plugins:
@@ -188,6 +190,10 @@ plugins:
 
 resources:
   Resources:
+    AlertQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${self:custom.alertQueueName}
     S3Bucket:
       Type: AWS::S3::Bucket
       Properties:

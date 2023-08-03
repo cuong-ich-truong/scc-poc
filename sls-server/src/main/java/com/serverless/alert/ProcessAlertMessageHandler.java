@@ -23,11 +23,9 @@ public class ProcessAlertMessageHandler implements RequestHandler<SQSEvent, Void
         String msgBody = msg.getBody();
         ObjectMapper mapper = new ObjectMapper();
         
-        CreateAlertMessageEvent alert = mapper.readValue(msgBody, CreateAlertMessageEvent.class);
-        logger.info("Alert request " + alert);
-
         Incident incident = mapper.readValue(msgBody, Incident.class);
-        logger.info("Incident request " + incident);
+        Incident createdIncident = new Incident().create(incident);
+        logger.info("Incident created " + createdIncident);
     }
 
     } catch (Exception ex) {

@@ -58,6 +58,10 @@ public class Incident {
     }
 
     public Boolean isIgnored() {
+        if (this.ignored == null) {
+            return false;
+        }
+        
         return this.ignored;
     }
 
@@ -67,6 +71,11 @@ public class Incident {
 
     public String getGuardId() {
         return this.guardId;
+    }
+
+    @DynamoDBIgnore
+    public Boolean isAssignedToGuard() {
+        return this.guardId != null && !this.guardId.isEmpty();
     }
 
     public void setGuardId(String guardId) {
@@ -154,7 +163,6 @@ public class Incident {
         logger.info("Incident - load(): record - " + incident.toString());
 
         if (StringUtils.isNotBlank(updateIncidentRequest.guardId) && StringUtils.isBlank(incident.getGuardId())) {
-            // TODO: send message to firebase to push notification to mobile
             incident.setGuardId(updateIncidentRequest.guardId);
         }
         if (BooleanUtils.isTrue(updateIncidentRequest.ignore)) {
@@ -166,8 +174,8 @@ public class Incident {
     }
 
     public void save(Incident record) {
-        logger.info("Incident created");
         this.mapper.save(record);
+        logger.info("Incident created/updated");
     }
 
     public List<Incident> getIncidentsByGuardId(String guardId) throws IOException {

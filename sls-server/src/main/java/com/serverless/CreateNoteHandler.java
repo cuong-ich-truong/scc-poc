@@ -30,7 +30,7 @@ public class CreateNoteHandler implements RequestHandler<Map<String, Object>, Ap
 
             CreateNoteRequestBody createNoteRequestBody = mapper.readValue(String.valueOf(input.get(BODY)), CreateNoteRequestBody.class);
 
-            Note newNote = new Note().create(incidentId, createNoteRequestBody);
+            Note newNote = new Note().create(incidentId, createNoteRequestBody.getDescription());
             String noteId = newNote.getId();
             logger.info(String.format("Note [id=%s, incidentId=%s]", noteId, incidentId));
 

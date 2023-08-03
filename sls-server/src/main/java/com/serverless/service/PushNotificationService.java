@@ -24,12 +24,17 @@ public class PushNotificationService {
 
   public String sendAlert(Incident incident) {
     try {
-      if (incident.isIgnored() || incident.getGuardId() == null) {
+      if (incident.isIgnored() || !incident.isAssignedToGuard()) {
         return null;
       }
 
       Guard guard = new Guard().get(incident.getGuardId());
 
+      // Throw error if guard is not found or does not have token or token is empty
+      if (guard == null || guard.getToken() == null || guard.getToken().isEmpty()) {
+        throw new Exception("Guard not found or does not have token");
+      }
+      
       SendRemoteMessage message = new SendRemoteMessage("New Incident", incident.getName(), incident.getId());
       logger.info("message " + message.toJsonMessage());
 

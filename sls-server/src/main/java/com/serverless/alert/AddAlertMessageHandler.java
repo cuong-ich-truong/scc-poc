@@ -30,7 +30,8 @@ public class AddAlertMessageHandler implements RequestHandler<Map<String, Object
       CreateAlertMessageEvent alertMessage = getRequestBody(input, CreateAlertMessageEvent.class);
 
       AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
-      String queueUrl = System.getenv("SQS_ALERTS_QUEUE_URL");
+      String queueUrl = sqs.getQueueUrl(System.getenv("SQS_ALERTS_QUEUE_NAME")).getQueueUrl();
+      
       SendMessageRequest send_msg_request = new SendMessageRequest()
         .withQueueUrl(queueUrl)
         .withMessageBody(alertMessage.toString())
