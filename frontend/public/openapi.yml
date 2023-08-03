@@ -179,6 +179,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Incident'
+
+  /incidents/{incident_id}/notes:
+    get:
+      tags:
+        - Notes
+      description: Returns a list of notes for the specified incident.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Note'
+    post:
+      tags:
+        - Notes
+      description: Creates a new note for the specified incident.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
   # Premises
   /premises:
     get:
