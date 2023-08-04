@@ -12,9 +12,11 @@
     Person(guard, "Security Guard", "Security Guards patrolling the facility")
 
     System_Ext(cctv, "CCTV", "Multiple closed-circuit television (CCTV) cameras")
+    System_Ext(alertSys, "Alert System", "Raises Alerts When Abnormalities Occur", "System")
     System(scc, "Security Command Center System", "Allow users to monitor and respond to alerts")
 
     Rel(cctv, scc, "Sends Video Feed")
+    Rel_Up(alertSys, scc, "Sends Alerts")
     Rel_Left(operator, scc, "Monitor CCTV, View and Assign Alerts")
     Rel_Right(guard, scc, "Acknowledge Alerts / Report Incidents")   
 @enduml
