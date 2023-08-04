@@ -13,6 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.io.IOException;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -56,11 +57,12 @@ public class NoteTests {
     public void createNote() throws IOException {
 
         Note note = new Note();
-        note.setId("not_1");
         note.mapper = dynamoDBMapper;
+        String description = "test description";
+        String incidentId = "inc_1";
 
-        note.create("inc_1", "desc_1");
-
-        verify(dynamoDBMapper).save(Mockito.eq(note));
+        note.create(incidentId, description);
+        verify(dynamoDBMapper).save(argThat((Note note_) -> note_.getIncidentId().equals(incidentId)));
+        verify(dynamoDBMapper).save(argThat((Note note_) -> note_.getDescription().equals(description)));
     }
 }
