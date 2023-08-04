@@ -25,7 +25,7 @@ public class Incident {
 
     private static DynamoDBAdapter db_adapter;
     private final AmazonDynamoDB client;
-    private final DynamoDBMapper mapper;
+    protected DynamoDBMapper mapper;
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -63,6 +63,14 @@ public class Incident {
         }
         
         return this.ignored;
+    }
+
+    public DynamoDBMapper getMapper() {
+        return mapper;
+    }
+
+    public void setMapper(DynamoDBMapper mapper) {
+        this.mapper = mapper;
     }
 
     public void setIgnored(Boolean ignored) {

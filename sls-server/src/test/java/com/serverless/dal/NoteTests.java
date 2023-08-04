@@ -2,6 +2,7 @@ package com.serverless.dal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
+import com.serverless.dto.CreateNoteRequestBody;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,6 +60,7 @@ public class NoteTests {
         note.mapper = dynamoDBMapper;
 
         note.create("inc_1", "desc_1");
+
         verify(dynamoDBMapper).save(Mockito.eq(note));
     }
 }
