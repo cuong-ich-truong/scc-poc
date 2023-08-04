@@ -73,4 +73,62 @@ public class PremiseTests {
         Assert.assertEquals(result.get(0).getCameras().size(), paginatedScanList.get(0).getCameras().size());
         Assert.assertEquals(result.get(0).getCameras().get(0).toString(), paginatedScanList.get(0).getCameras().get(0).toString());
     }
+
+    @Test
+    public void getAllPremises_Empty() throws IOException {
+
+        Premise premise = new Premise();
+        premise.mapper = dynamoDBMapper;
+
+        when(dynamoDBMapper.scan(Mockito.eq(Premise.class), Mockito.any())).thenReturn(paginatedScanList);
+        when(paginatedScanList.size()).thenReturn(0);
+
+        List<Premise> result = premise.list();
+        Assert.assertEquals(result.size(), paginatedScanList.size());
+    }
+
+    @Test
+    public void getAllPremisesWithRelations_NoCameras() throws IOException {
+
+        Premise premise = new Premise();
+        premise.setId("Pre_1");
+        premise.mapper = dynamoDBMapper;
+        paginatedScanList.add(premise);
+
+        when(dynamoDBMapper.scan(Mockito.eq(Premise.class), Mockito.any())).thenReturn(paginatedScanList);
+        when(paginatedScanList.size()).thenReturn(1);
+
+        List<Premise> result = premise.listWithRelations();
+        Assert.assertEquals(result.size(), paginatedScanList.size());
+        Assert.assertEquals(result.get(0).toString(), paginatedScanList.get(0).toString());
+        Assert.assertEquals(result.get(0).getCameras().size(), 0);
+    }
+
+    @Test
+    public void getAllPremisesWithRelations_CamerasNoIncidents() throws IOException {
+
+        Camera camera = new Camera();
+        camera.setId("Cam_1");
+        camera.mapper = cameraDynamoDBMapper;
+        cameraPaginatedScanList.add(camera);
+
+        Premise premise = new Premise();
+        premise.setId("Pre_1");
+        premise.getCameras().add(camera);
+        premise.mapper = dynamoDBMapper;
+        paginatedScanList.add(premise);
+
+        when(cameraDynamoDBMapper.scan(Mockito.eq(Camera.class), Mockito.any())).thenReturn(cameraPaginatedScanList);
+        when(cameraPaginatedScanList.size()).thenReturn(1);
+
+        when(dynamoDBMapper.scan(Mockito.eq(Premise.class), Mockito.any())).thenReturn(paginatedScanList);
+        when(paginatedScanList.size()).thenReturn(1);
+
+        List<Premise> result = premise.listWithRelations();
+        Assert.assertEquals(result.size(), paginatedScanList.size());
+        Assert.assertEquals(result.get(0).toString(), paginatedScanList.get(0).toString());
+        Assert.assertEquals(result.get(0).getCameras().size(), cameraPaginatedScanList.size());
+        Assert.assertEquals(result.get(0).getCameras().get(0).toString(), cameraPaginatedScanList.get(0).toString());
+        Assert.assertEquals(result.get(0).getCameras().get(0).getIncidents().size(), 0);
+    }
 }

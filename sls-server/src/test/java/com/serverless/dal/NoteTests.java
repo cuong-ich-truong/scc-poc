@@ -64,6 +64,5 @@ public class NoteTests {
         note.create(incidentId, description);
         verify(dynamoDBMapper).save(argThat((Note note_) -> note_.getIncidentId().equals(incidentId)));
         verify(dynamoDBMapper).save(argThat((Note note_) -> note_.getDescription().equals(description)));
-
     }
 }

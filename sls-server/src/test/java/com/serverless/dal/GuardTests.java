@@ -70,4 +70,14 @@ public class GuardTests {
         guard.setToken(token);
         verify(dynamoDBMapper).save(Mockito.eq(guard));
     }
+
+    @Test
+    public void saveGuard() {
+        Guard guard = new Guard();
+        guard.setId("gua_1");
+        guard.mapper = dynamoDBMapper;
+
+        guard.save(guard);
+        verify(dynamoDBMapper).save(Mockito.eq(guard));
+    }
 }
