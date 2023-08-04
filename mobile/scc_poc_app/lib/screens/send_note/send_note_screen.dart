@@ -51,7 +51,7 @@ class SendNoteScreenState extends ConsumerState<SendNoteScreen> {
     }
   }
 
-  _sendNote() async{
+  _sendNote() async {
     final sendNoteNotifier = ref.watch($sendNoteProvider.notifier);
     final uploadFileNotifier = ref.watch($uploadFileProvider.notifier);
     _isNetworkLoading = true;
@@ -146,8 +146,8 @@ class SendNoteScreenState extends ConsumerState<SendNoteScreen> {
           visible: _textEditController.text.isNotEmpty,
           child: ElevatedButton(
             child: const Text('Send note'), 
-              onPressed: () async {
-                _sendNote();
+              onPressed: () async {  
+                  _sendNote();
             })
             ),
     );

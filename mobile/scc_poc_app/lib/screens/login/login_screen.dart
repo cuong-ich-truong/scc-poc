@@ -39,7 +39,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
     fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
-
+  
     // Get any messages which caused the application to open from
     // a terminated state.
     RemoteMessage? initialMessage =
@@ -62,7 +62,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   void _handleMessage(RemoteMessage message) {
      String? incidentId = message.data['incident_id'];
 
-     if (incidentId != null) {
+    if (incidentId != null) {
        _goToDetailScreen(incidentId);
      }
   }
@@ -105,10 +105,10 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       ),
     body: ListView(children: [
       ElevatedButton(onPressed: () {
-        _goToIncidentsListScreen(context, "gua_1");
+        _goToIncidentsListScreen(context, "gua_3");
       }, child: const Text('CHRIS')),
       ElevatedButton(onPressed: () {
-        _goToIncidentsListScreen(context, "gua_1");
+        _goToIncidentsListScreen(context, "gua_2");
       }, child: const Text('ALEX')),
       ElevatedButton(onPressed: () {
         _goToIncidentsListScreen(context, "gua_1");
