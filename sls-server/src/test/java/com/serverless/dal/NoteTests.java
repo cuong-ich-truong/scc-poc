@@ -2,6 +2,7 @@ package com.serverless.dal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
+import com.serverless.dto.CreateNoteRequestBody;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,7 +58,6 @@ public class NoteTests {
 
         Note note = new Note();
         note.mapper = dynamoDBMapper;
-
         String description = "test description";
         String incidentId = "inc_1";
 
