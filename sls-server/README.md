@@ -35,6 +35,8 @@
 
 ## Running in local
 
+###### It's important to note that Serverless is only compatible with Java versions up to 11. If your Java version is higher than 11, please downgrade it.
+
 1. Install and run in local
 
     ```bash
@@ -42,7 +44,12 @@
     serverless plugin install -n serverless-dynamodb-seed
     ```
 
-2. Invoke function locally
+2. Build the package
+   ```bash
+   mvn clean package
+   ```
+
+3. Invoke function locally
 
     Serverless Offline will start a local server at http://localhost:3000 and connect to all resources in AWS of the given stage
 
