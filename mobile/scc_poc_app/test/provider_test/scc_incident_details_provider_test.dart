@@ -21,7 +21,7 @@ void main() {
         
         when(fakeRepository.fetchIncidentDetail('1')).thenAnswer(
             (_) => Future.value(
-                    {'id': "1", 'name': 'Incident 1', 'guardId': "123", 'cameraId': "fdf9dadas", 'instruction': "Please take a look"},
+                    {'id': "1", 'name': 'Incident 1', 'guardId': "123", 'cameraId': "fdf9dadas", 'instruction': "Please take a look", 'notes': []},
                   )
         );
 
