@@ -2,6 +2,16 @@
 
 POC for Security Command Center
 
+## Project Structure
+
+The project consists of 3 main folders:
+
+- frontend
+- sls-server
+- mobile
+
+Each folder contains the source code for the corresponding component. Instructions on how to run each component can be found in the README file in each folder as well.
+
 ## System Architecture Overview
 
 ### Overview
@@ -9,6 +19,7 @@ POC for Security Command Center
 - Frontend: React built with vite
 - Backend: AWS Lambda with Serverless Framework
 - Mobile: Flutter
+- CI/CD: Github Actions with Serverless Framework
 
 ### Assumptions
 
@@ -33,10 +44,12 @@ The frontend was built with React and hosted with Github Pages.
 
 ### Backend APIs
 
-The backend was built with Serverless Framework and deployed to AWS Lambda with simple architecture consists 2 layers:
+The backend was built with Serverless Framework using Java and deployed to AWS Lambda with simple architecture consists 2 layers:
 
 - **Handlers Layer**: Classes that acting as the Controllers and handle API requests
 - **Data Access Layer**: Classes that acting as the Models and handle data access to DynamoDB
+
+AWS Lambda is a serverless compute service that allows us to run code without provisioning or managing servers. This approach allows us to focus on the business logic and implementation. Serverless also comes with many advantages such as low cost, scalable and zero downtime deployment. However, this approach also has some limitations such as the cold start issue and the lack of support for Java SDKs and libraries.
 
 *Potential improvements:*
 
@@ -54,12 +67,11 @@ The database was created using DynamoDB which provides the flexibility to store 
 
 ### Alert System
 
-The Alert System was mocked using a simple endpoint that sends messages to the alert queue created using AWS SQS. The messages will then be consumed by a Lambda function that will send the messages to the subscribed users using AWS SNS.
+The Alert System was mocked using a simple endpoint that sends messages to the alert queue created using AWS SQS. The messages will then be consumed by a Lambda function that will process the messages and create new alerts in the database. The frontend will be polling the API to get the latest alerts notifications which will can be assigned to the Security Guards by the Operator.
 
 *Potential improvements:*
 
 - Use a self-hosted message queue such as RabbitMQ for better control or Kafka for better message processing and streaming performance.
-rev
 
 ### Mobile App
 
@@ -72,6 +84,19 @@ The mobile app was built with Flutter for cross platform support. The app is cur
 - Allow to select files from the device when sending notes.
 - Support iOS users.
 - Implement CI/CD system.
+
+### CI/CD
+
+The CI/CD was built with Github Actions and Serverless Framework. The CI/CD pipeline consists 2 workflows:
+
+- Frontend Check: will be triggered on every pull request to the `main` branch and will run build check as well as the unit tests for the frontend.
+- Front Deployment: will be triggered on every push to the `main` branch and will deploy the frontend to Github Pages.
+
+Deployment of the backend is done manually using Serverless Framework with one single command `sls deploy -stage <environment_name>`. Serverless Framework will then create a CloudFormation stack and deploy the Lambda functions along side with all the required resources such as DynamoDB tables, SQS queues, SNS topics, etc. This approach is chosen to allow better control over the deployment process following the Infrastructure as Code practices. This approach also allows each developer to have control on their own fully functional environment which will help avoid conflicts and improve productivity.
+
+*Potential improvements:*
+
+- Create a separate CI/CD pipeline using Github Actions for the backend to allow fully automated deployment.
 
 ## C4 Models
 
