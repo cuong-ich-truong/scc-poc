@@ -68,6 +68,10 @@ The mobile app was built with Flutter for cross platform support. The app is cur
 *Potential improvements:*
 
 - Enable authentication and authorization for the mobile app to allow users to login and access their own data (e.g assigned premises or camera )
+- Improve UI/UX.
+- Allow to select files from the device when sending notes.
+- Support iOS users.
+- Implement CI/CD system.
 
 ## C4 Models
 
