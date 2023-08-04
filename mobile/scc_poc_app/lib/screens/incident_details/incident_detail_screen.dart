@@ -13,8 +13,8 @@ class IncidentDetailScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final incidentDetail = ref.watch($incidentDetailProvider).incident;
-    final isLoading = ref.watch($incidentDetailProvider).isLoading;
+    final incidentDetail = ref.watch($incidentDetailProvider.select((value) => value.incident));
+    final isLoading = ref.watch($incidentDetailProvider.select((value) => value.isLoading));
     final notifier = ref.watch($incidentDetailProvider.notifier);
 
     useEffect(() {

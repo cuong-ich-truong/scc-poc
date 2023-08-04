@@ -13,7 +13,7 @@ class SCCServiceRepository extends SCCRepository {
 
   late final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'https://pdv8qn3xje.execute-api.us-east-1.amazonaws.com/uat/',
+      baseUrl: 'https://lf1ag8mnsi.execute-api.us-east-1.amazonaws.com/demo/',
       connectTimeout: 60000,
       receiveTimeout: 60000,
       responseType: ResponseType.json,
