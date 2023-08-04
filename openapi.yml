@@ -62,6 +62,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Camera'
+    Note:
+      type: object
+      properties:
+        id:
+          type: string
+        description:
+          type: string
+        video:
+          type: object
+        picture:
+          type: object
+        incidentId:
+          type: string
     UpdateIncidentRequest:
       type: object
       properties:
@@ -210,6 +223,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Note'
+
+  /incidents/new:
+    get:
+      tags:
+        - Incidents
+      description: Returns a list of new incidents.
+      parameters:
+        - in: query
+          name: incidentIds
+          required: true
+          schema:
+            type: string
+          description: The array of excluded incident ids concatenated by ','
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Incident'
   # Premises
   /premises:
     get:
